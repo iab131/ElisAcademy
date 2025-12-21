@@ -1,12 +1,21 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
     return (
         <footer className="w-full bg-primary text-white py-12">
             <div className="mx-auto max-w-7xl px-4 md:px-6 grid gap-8 md:grid-cols-4">
-                <div className="md:col-span-2">
-                    <Link href="/" className="font-serif text-2xl font-bold text-white">
-                        Elis Academy
+                <div className="md:col-span-2 flex flex-col items-center justify-center -mt-4">
+                    <Link href="/" className="">
+                        <div className="relative h-30 w-48">
+                            <Image
+                                src="/logo/logo-white.png"
+                                alt="Elis Academy"
+                                fill
+                                className="object-contain"
+                                priority
+                            />
+                        </div>
                     </Link>
                     <p className="mt-4 text-gray-300 max-w-xs text-sm leading-relaxed">
                         Empowering students through excellence in academics and athletics.
@@ -48,11 +57,15 @@ export function Footer() {
                 <div>
                     <h3 className="font-semibold mb-4 text-white">Contact Us</h3>
                     <ul className="space-y-2 text-sm text-gray-300">
-                        <li>123 Academy Lane</li>
-                        <li>Toronto, ON</li>
+                        <li>135 Industrial Pkwy N <br/> Aurora, ON L4G 4C4</li>
                         <li>
-                            <a href="mailto:info@elisacademy.com" className="hover:text-white transition-colors">
-                                info@elisacademy.com
+                            <a href="mailto:info@elisacademy.com" className=" hover:text-white transition-colors">
+                                info@queensglen.com
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+13658875989" className="hover:text-white transition-colors">
+                                +1 365 887 5989
                             </a>
                         </li>
                     </ul>

@@ -83,7 +83,7 @@ export default function EliteProgramPage() {
                         Learn more about the application process and requirements.
                     </p>
                     <Button asChild size="lg" variant="secondary">
-                        <Link href="/programs/applications">View Application info</Link>
+                        <Link href="/programs/ncaa">View Application info</Link>
                     </Button>
                 </div>
             </section>

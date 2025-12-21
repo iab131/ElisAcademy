@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const programs = [
     { name: "Elite Program", href: "/programs/elite" },
     { name: "NCAA Pathway", href: "/programs/ncaa" },
-    { name: "Canadian University", href: "/programs/university" },
+    { name: "Canadian University", href: "/programs/canadian" },
 ];
 
 const otherLinks = [

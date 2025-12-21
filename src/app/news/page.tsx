@@ -1,6 +1,7 @@
 import { getPublishedPosts } from "@/lib/notion";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
@@ -20,9 +21,17 @@ export default async function NewsIndexPage() {
                             <Card className="h-full border-none shadow-sm hover:shadow-xl transition-all overflow-hidden bg-gray-50 flex flex-col">
                                 <div className="relative h-56 w-full overflow-hidden bg-gray-200">
                                     {post.coverImage ? (
-                                        <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                        <Image
+                                            src={post.coverImage}
+                                            alt={post.title}
+                                            fill
+                                            className="object-cover opacity-90 transition-transform duration-500 group-hover:scale-105 group-hover:opacity-100"
+                                        />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
+                                        // Fallback placeholder if no image
+                                        <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                                            <span className="text-white text-2xl font-serif">Elis Academy</span>
+                                        </div>
                                     )}
                                 </div>
                                 <CardHeader className="pb-2">
