@@ -1,10 +1,57 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { useState, FormEvent } from "react";
 
 export default function ContactPage() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setIsLoading(true);
+        setStatus('idle');
+        setErrorMessage('');
+
+        const formData = new FormData(e.currentTarget);
+        const data = {
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            subject: formData.get('subject'),
+            message: formData.get('message'),
+        };
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Something went wrong');
+            }
+
+            setStatus('success');
+            (e.target as HTMLFormElement).reset();
+        } catch (error) {
+            setStatus('error');
+            setErrorMessage(error instanceof Error ? error.message : 'Failed to send message');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <div className="w-full">
             <div className="bg-primary py-24 text-center text-white">
@@ -59,36 +106,57 @@ export default function ContactPage() {
 
                     {/* Form */}
                     <div className="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100">
-                        <form className="space-y-6">
+                        <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="first-name">First name</Label>
-                                    <Input id="first-name" placeholder="Enter first name" />
+                                    <Input id="first-name" name="firstName" placeholder="Enter first name" required />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="last-name">Last name</Label>
-                                    <Input id="last-name" placeholder="Enter last name" />
+                                    <Input id="last-name" name="lastName" placeholder="Enter last name" required />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" placeholder="you@example.com" />
+                                <Input id="email" name="email" type="email" placeholder="you@example.com" required />
                             </div>
 
                             <div className="space-y-2">
                                 <Label htmlFor="subject">Subject</Label>
-                                <Input id="subject" placeholder="Admissions Inquiry" />
+                                <Input id="subject" name="subject" placeholder="Admissions Inquiry" required />
                             </div>
 
                             <div className="space-y-2">
                                 <Label htmlFor="message">Message</Label>
-                                <Textarea id="message" placeholder="How can we help you?" className="min-h-[150px]" />
+                                <Textarea id="message" name="message" placeholder="How can we help you?" className="min-h-[150px]" required />
                             </div>
 
-                            <Button type="submit" size="lg" className="w-full">
-                                Send Message
+                            <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Sending...
+                                    </>
+                                ) : (
+                                    "Send Message"
+                                )}
                             </Button>
+
+                            {status === 'success' && (
+                                <div className="p-4 bg-green-50 text-green-700 rounded-lg flex items-center">
+                                    <CheckCircle className="h-5 w-5 mr-2" />
+                                    <span>Message sent successfully! We'll get back to you soon.</span>
+                                </div>
+                            )}
+
+                            {status === 'error' && (
+                                <div className="p-4 bg-red-50 text-red-700 rounded-lg flex items-center">
+                                    <AlertCircle className="h-5 w-5 mr-2" />
+                                    <span>{errorMessage || 'Something went wrong. Please try again.'}</span>
+                                </div>
+                            )}
                         </form>
                     </div>
                 </div>

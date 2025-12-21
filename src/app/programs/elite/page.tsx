@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
+import Image from "next/image";
 
 export default function EliteProgramPage() {
     return (
@@ -27,48 +28,70 @@ export default function EliteProgramPage() {
                             ))}
                         </ul>
                     </div>
-                    <div className="bg-gray-200 rounded-xl h-[400px] flex items-center justify-center text-gray-500">
-                        Program Image/Video
+                    <div className="relative overflow-hidden bg-gray-200 rounded-xl h-[400px] flex items-center justify-center text-gray-500">
+                        <Image
+                            src="/pics/ice.png"
+                            alt="Elite Program"
+                            fill
+                            className="object-cover" />
                     </div>
                 </div>
 
                 {/* Schedule */}
                 <div className="mb-20">
-                    <h2 className="text-3xl font-serif font-bold text-center text-primary mb-12">Typical Daily Schedule</h2>
+                    <h2 className="text-3xl font-serif font-bold text-center text-primary mb-12">Weekly Schedule</h2>
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-gray-100 text-primary">
+                                    <th className="p-4 border">Day</th>
                                     <th className="p-4 border">Time</th>
                                     <th className="p-4 border">Activity</th>
-                                    <th className="p-4 border">Details</th>
                                 </tr>
                             </thead>
                             <tbody className="text-gray-600">
+                                {/* Monday */}
                                 <tr>
-                                    <td className="p-4 border">8:00 AM - 10:00 AM</td>
-                                    <td className="p-4 border font-semibold">Academic Session 1</td>
-                                    <td className="p-4 border">Core subjects and study hall</td>
+                                    <td className="p-4 border font-bold text-primary bg-blue-50/50" rowSpan={2}>Monday</td>
+                                    <td className="p-4 border">3:00 PM - 4:00 PM</td>
+                                    <td className="p-4 border font-semibold">Ice Time</td>
                                 </tr>
                                 <tr>
-                                    <td className="p-4 border">10:30 AM - 12:30 PM</td>
-                                    <td className="p-4 border font-semibold">Technical Training</td>
-                                    <td className="p-4 border">Field session focusing on skills</td>
+                                    <td className="p-4 border">4:00 PM - 5:30 PM</td>
+                                    <td className="p-4 border font-semibold">Homework Tutoring</td>
+                                </tr>
+
+                                {/* Tuesday */}
+                                <tr>
+                                    <td className="p-4 border font-bold text-primary bg-blue-50/50" rowSpan={2}>Tuesday</td>
+                                    <td className="p-4 border">2:45 PM - 3:30 PM</td>
+                                    <td className="p-4 border font-semibold">Strength Training</td>
                                 </tr>
                                 <tr>
-                                    <td className="p-4 border">12:30 PM - 1:30 PM</td>
-                                    <td className="p-4 border font-semibold">Lunch & Recovery</td>
-                                    <td className="p-4 border">Nutrition dedicated meal</td>
+                                    <td className="p-4 border">3:30 PM - 5:00 PM</td>
+                                    <td className="p-4 border font-semibold">Homework Tutoring</td>
+                                </tr>
+
+                                {/* Wednesday */}
+                                <tr>
+                                    <td className="p-4 border font-bold text-primary bg-blue-50/50" rowSpan={2}>Wednesday</td>
+                                    <td className="p-4 border">3:00 PM - 4:00 PM</td>
+                                    <td className="p-4 border font-semibold">Ice Time</td>
                                 </tr>
                                 <tr>
-                                    <td className="p-4 border">2:00 PM - 4:00 PM</td>
-                                    <td className="p-4 border font-semibold">Academic Session 2</td>
-                                    <td className="p-4 border">Electives and projects</td>
+                                    <td className="p-4 border">4:00 PM - 5:30 PM</td>
+                                    <td className="p-4 border font-semibold">Homework Tutoring</td>
+                                </tr>
+
+                                {/* Thursday */}
+                                <tr>
+                                    <td className="p-4 border font-bold text-primary bg-blue-50/50" rowSpan={2}>Thursday</td>
+                                    <td className="p-4 border">2:45 PM - 3:30 PM</td>
+                                    <td className="p-4 border font-semibold">Strength Training</td>
                                 </tr>
                                 <tr>
-                                    <td className="p-4 border">4:30 PM - 6:00 PM</td>
-                                    <td className="p-4 border font-semibold">Team Tactics / S&C</td>
-                                    <td className="p-4 border">Gym work or team strategy</td>
+                                    <td className="p-4 border">3:30 PM - 5:00 PM</td>
+                                    <td className="p-4 border font-semibold">Homework Tutoring</td>
                                 </tr>
                             </tbody>
                         </table>
