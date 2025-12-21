@@ -9,6 +9,8 @@ interface Props {
     params: Promise<{ slug: string }>;
 }
 
+export const revalidate = 300;
+
 export default async function BlogPostPage({ params }: Props) {
     const { slug } = await params;
     const post = await getPostBySlug(slug);

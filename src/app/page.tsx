@@ -61,6 +61,8 @@ const ALUMNI: Alumni[] = [
   { name: "Amanda Lee", university: "UNC Chapel Hill", year: "'22", image: "/pics/alumni/alex.jpeg" },
 ];
 
+export const revalidate = 300;
+
 export default async function Home() {
   const slides = await getHeroSlides();
   return (

@@ -16,7 +16,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Elis Academy",
-  description: "Elis Academy - Excellence in Education and Sports",
+  description: "Where Academics and Athletics Excel",
 };
 
 export default function RootLayout({
