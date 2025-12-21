@@ -27,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning
         className={`${inter.variable} ${playfair.variable} antialiased bg-white text-primary font-sans flex flex-col min-h-screen`}
       >
         <Navbar />
