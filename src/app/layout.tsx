@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: "Elis Academy",
     images: [
       {
-        url: '/pics/logo.png', // Assuming logo exists, or use a general hero image
+        url: '/logo/logo-white.png', // Assuming logo exists, or use a general hero image
         width: 1200,
         height: 630,
         alt: 'Elis Academy',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Elis Academy",
     description: "Preparing student-athletes for the NCAA and professional levels.",
-    images: ['/pics/logo.png'],
+    images: ['/logo/logo-white.png'],
   },
   robots: {
     index: true,
