@@ -15,8 +15,47 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Elis Academy",
-  description: "Where Academics and Athletics Excel",
+  metadataBase: new URL('https://elisacademy.com'),
+  title: {
+    default: "Elis Academy | Where Academics and Athletics Excel",
+    template: "%s | Elis Academy"
+  },
+  description: "Elis Academy provides an elite environment where students pursue academic goals while developing athletic potential to the highest level.",
+  keywords: ["Elis Academy", "Elite Sports", "Private School", "Hockey Academy", "NCAA Scholarship", "Student Athlete", "Richmond Hill", "Ontario Education"],
+  authors: [{ name: "Elis Academy" }],
+  openGraph: {
+    type: 'website',
+    locale: 'en_CA',
+    url: 'https://elisacademy.com',
+    title: "Elis Academy | Premier Sports & Education",
+    description: "Where Academics and Athletics Excel. Join our elite program for student-athletes.",
+    siteName: "Elis Academy",
+    images: [
+      {
+        url: '/pics/logo.png', // Assuming logo exists, or use a general hero image
+        width: 1200,
+        height: 630,
+        alt: 'Elis Academy',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Elis Academy",
+    description: "Preparing student-athletes for the NCAA and professional levels.",
+    images: ['/pics/logo.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
