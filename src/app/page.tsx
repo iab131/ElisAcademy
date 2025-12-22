@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Hero } from "@/components/sections/Hero";
 import { HeroSlider } from "@/components/sections/HeroSlider";
-import { getHeroSlides } from "@/lib/notion";
+import { getHeroSlides, getStudents, getAlumni } from "@/lib/notion";
 import { NewsPreview } from "@/components/sections/NewsPreview";
 import { Button } from "@/components/ui/button";
 
@@ -13,19 +13,7 @@ interface Owner {
   image: string;
 }
 
-interface Student {
-  name: string;
-  program: string;
-  year: string;
-  image: string;
-}
 
-interface Alumni {
-  name: string;
-  university: string;
-  year: string;
-  image: string;
-}
 
 const OWNERS: Owner[] = [
   {
@@ -42,29 +30,14 @@ const OWNERS: Owner[] = [
   },
 ];
 
-const STUDENTS: Student[] = [
-  { name: "David Kim", program: "Soccer Elite", year: "'25", image: "/pics/student/stu1.JPG" },
-  { name: "Emily Watson", program: "Tennis Pro", year: "'26", image: "/pics/student/stu2.JPG" },
-  { name: "James Carter", program: "Basketball", year: "'24", image: "/pics/student/stu3.JPG" },
-  { name: "Sofia Rodriguez", program: "Track & Field", year: "'25", image: "/pics/student/stu4.JPG" },
-  { name: "David Kim", program: "Soccer Elite", year: "'25", image: "/pics/student/stu5.JPG" },
-  { name: "Emily Watson", program: "Tennis Pro", year: "'26", image: "/pics/student/stu6.JPG" },
-  { name: "James Carter", program: "Basketball", year: "'24", image: "/pics/student/stu7.JPG" },
-  { name: "Sofia Rodriguez", program: "Track & Field", year: "'25", image: "/pics/student/stu8.JPG" },
-  { name: "Sofia Rodriguez", program: "Track & Field", year: "'25", image: "/pics/student/stu9.JPG" },
-];
 
-const ALUMNI: Alumni[] = [
-  { name: "Michael Chang", university: "Stanford University", year: "'20", image: "/pics/alumni/alex.jpeg" },
-  { name: "Jessica Rowe", university: "Duke University", year: "'19", image: "/pics/alumni/alex.jpeg" },
-  { name: "Robert Fox", university: "UCLA", year: "'21", image: "/pics/alumni/alex.jpeg" },
-  { name: "Amanda Lee", university: "UNC Chapel Hill", year: "'22", image: "/pics/alumni/alex.jpeg" },
-];
 
 export const revalidate = 300;
 
 export default async function Home() {
   const slides = await getHeroSlides();
+  const students = await getStudents();
+  const alumni = await getAlumni();
   return (
     <div className="flex flex-col w-full">
       <Hero />
@@ -117,7 +90,7 @@ export default async function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {OWNERS.map((owner, index) => (
               <div key={index} className="flex flex-col items-center text-center group">
-                <div className="w-56 h-56 rounded-full bg-white mb-6 overflow-hidden relative shadow-md border-4 border-white group-hover:border-accent transition-colors">
+                <div className="w-72 h-72 rounded-full bg-white mb-6 overflow-hidden relative shadow-md border-4 border-white group-hover:border-accent transition-colors">
                   <Image
                     src={owner.image}
                     alt={owner.name}
@@ -150,7 +123,7 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {STUDENTS.map((student, index) => (
+            {students.map((student, index) => (
               <div key={index} className="group relative overflow-hidden rounded-xl bg-gray-100 aspect-[3/4] shadow-sm hover:shadow-xl transition-all">
                 <div className="absolute inset-0 bg-gray-200">
                   <Image
@@ -163,7 +136,7 @@ export default async function Home() {
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                   <h4 className="text-white font-bold text-lg">{student.name}</h4>
-                  <p className="text-gray-200 text-sm">{student.program} • {student.year}</p>
+                  <p className="text-gray-200 text-sm">{student.program} • '{student.year}</p>
                 </div>
               </div>
             ))}
@@ -179,7 +152,7 @@ export default async function Home() {
             Elis Academy graduates have gone on to compete at NCAA Division I universities and professional levels across the globe.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {ALUMNI.map((alumni, index) => (
+            {alumni.map((alumni, index) => (
               <div key={index} className="group relative overflow-hidden rounded-xl bg-gray-100 aspect-[3/4] shadow-sm hover:shadow-xl transition-all">
                 <div className="absolute inset-0 bg-gray-200">
                   <Image
@@ -192,7 +165,7 @@ export default async function Home() {
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 text-left">
                   <h4 className="text-white font-bold text-lg">{alumni.name}</h4>
-                  <p className="text-gray-200 text-sm">{alumni.university} • {alumni.year}</p>
+                  <p className="text-gray-200 text-sm">{alumni.university} • '{alumni.year}</p>
                 </div>
               </div>
             ))}

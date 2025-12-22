@@ -12,7 +12,7 @@ export function Footer() {
                                 src="/logo/logo-white.png"
                                 alt="Elis Academy"
                                 fill
-                                className="object-contain"
+                                className="object-contain -ml-2"
                                 priority
                             />
                         </div>
@@ -59,8 +59,8 @@ export function Footer() {
                     <ul className="space-y-2 text-sm text-gray-300">
                         <li>135 Industrial Pkwy N <br/> Aurora, ON L4G 4C4</li>
                         <li>
-                            <a href="mailto:info@elisacademy.com" className=" hover:text-white transition-colors">
-                                info@queensglen.com
+                            <a href="mailto:elisacademyca@gmail.com" className=" hover:text-white transition-colors">
+                                elisacademyca@gmail.com
                             </a>
                         </li>
                         <li>

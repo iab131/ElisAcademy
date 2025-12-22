@@ -7,6 +7,30 @@ const notion = new Client({
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// Helper to extract URL from various property types and transform Google Drive links
+const getNotionUrl = (prop: any) => {
+    let url: string | null = null;
+    if (!prop) return null;
+    if (prop.type === 'url') url = prop.url;
+    else if (prop.type === 'files' && prop.files?.length > 0) {
+        url = prop.files[0].file?.url || prop.files[0].external?.url;
+    }
+    else if (prop.type === 'rich_text' && prop.rich_text?.length > 0) {
+        url = prop.rich_text[0].plain_text;
+    }
+
+    if (url) {
+        url = url.trim();
+        if (url.includes('drive.google.com/file/d/')) {
+            const match = url.match(/\/d\/([^/?]+)/);
+            if (match && match[1]) {
+                return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+            }
+        }
+    }
+    return url;
+};
+
 export interface BlogPost {
     id: string;
     title: string;
@@ -18,12 +42,12 @@ export interface BlogPost {
 }
 
 export async function getPublishedPosts(): Promise<BlogPost[]> {
-    if (!process.env.NOTION_API_KEY || !process.env.NOTION_DATABASE_ID) {
+    if (!process.env.NOTION_API_KEY || !process.env.NOTION_NEWS_DATABASE_ID) {
         console.warn("Notion API Key or Database ID missing. Returning mock data.");
         return [];
     }
 
-    const databaseId = process.env.NOTION_DATABASE_ID;
+    const databaseId = process.env.NOTION_NEWS_DATABASE_ID;
     const response = await notion.databases.query({
         database_id: databaseId,
         filter: {
@@ -79,7 +103,7 @@ export async function getPublishedPosts(): Promise<BlogPost[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
-    if (!process.env.NOTION_API_KEY || !process.env.NOTION_DATABASE_ID) {
+    if (!process.env.NOTION_API_KEY || !process.env.NOTION_NEWS_DATABASE_ID) {
         // Return mock post
         return {
             id: "1",
@@ -92,7 +116,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
         };
     }
 
-    const databaseId = process.env.NOTION_DATABASE_ID;
+    const databaseId = process.env.NOTION_NEWS_DATABASE_ID!;
     const response = await notion.databases.query({
         database_id: databaseId,
         filter: {
@@ -257,6 +281,210 @@ export const getHeroSlides = async (): Promise<HeroSlide[]> => {
         return slides;
     } catch (error) {
         console.error("Failed to fetch hero slides from Notion:", error);
+        return [];
+    }
+};
+
+export interface Student {
+    id: string;
+    name: string;
+    program: string;
+    year: string;
+    image: string;
+}
+
+export interface Alumni {
+    id: string;
+    name: string;
+    university: string;
+    year: string;
+    image: string;
+}
+
+export const getStudents = async (): Promise<Student[]> => {
+    const databaseId = process.env.NOTION_STUDENT_DATABASE_ID;
+
+    if (!databaseId) return [];
+
+    try {
+        const response = await notion.databases.query({
+            database_id: databaseId,
+            filter: {
+                property: "Published",
+                checkbox: {
+                    equals: true,
+                },
+            },
+        });
+
+        return response.results.map((page: any) => {
+            const props = page.properties;
+
+            const getName = (prop: any) => prop?.title?.[0]?.plain_text || "Untitled";
+            const getText = (prop: any) => prop?.rich_text?.[0]?.plain_text || prop?.select?.name || "";
+            const getNum = (prop: any) => prop?.number?.toString() || "";
+
+            // Image extraction helper
+            // Image extraction helper
+            const getUrlFromProp = getNotionUrl;
+
+            const image = getUrlFromProp(props.Image) ||
+                getUrlFromProp(props.Photo) ||
+                getUrlFromProp(props.ImageUrl) ||
+                page.cover?.external?.url ||
+                page.cover?.file?.url ||
+                "/pics/student/stu1.JPG"; // Fallback image
+
+            return {
+                id: page.id,
+                name: getName(props.Name),
+                program: getText(props.Program) || getText(props.Sport),
+                year: getNum(props.Year) || getNum(props.Class),
+                image: image
+            };
+        });
+    } catch (error) {
+        console.error("Failed to fetch students from Notion:", error);
+        return [];
+    }
+};
+
+export const getAlumni = async (): Promise<Alumni[]> => {
+    const databaseId = process.env.NOTION_ALUMNI_DATABASE_ID;
+
+    if (!databaseId) return [];
+
+    try {
+        const response = await notion.databases.query({
+            database_id: databaseId,
+            filter: {
+                property: "Published",
+                checkbox: {
+                    equals: true,
+                },
+            },
+        });
+
+        return response.results.map((page: any) => {
+            const props = page.properties;
+
+            const getName = (prop: any) => prop?.title?.[0]?.plain_text || "Untitled";
+            const getText = (prop: any) => prop?.rich_text?.[0]?.plain_text || prop?.select?.name || "";
+            const getNum = (prop: any) => prop?.number?.toString() || "";
+
+            // Image extraction helper
+            // Image extraction helper
+            const getUrlFromProp = getNotionUrl;
+
+            const image = getUrlFromProp(props.Image) ||
+                getUrlFromProp(props.Photo) ||
+                getUrlFromProp(props.ImageUrl) ||
+                page.cover?.external?.url ||
+                page.cover?.file?.url ||
+                "/pics/alumni/alex.jpeg"; // Fallback image
+
+            return {
+                id: page.id,
+                name: getName(props.Name),
+                university: getText(props.University) || getText(props.School),
+                year: getNum(props.Year) || getNum(props.Class),
+                image: image
+            };
+        });
+    } catch (error) {
+        console.error("Failed to fetch alumni from Notion:", error);
+        return [];
+    }
+};
+export interface Coach {
+    id: string;
+    name: string;
+    role: string;
+    image: string;
+}
+
+export const getCoaches = async (): Promise<Coach[]> => {
+    const databaseId = process.env.NOTION_COACH_DATABASE_ID;
+
+    if (!databaseId) return [];
+
+    try {
+        const response = await notion.databases.query({
+            database_id: databaseId,
+            filter: {
+                property: "Published",
+                checkbox: {
+                    equals: true,
+                },
+            },
+        });
+
+        return response.results.map((page: any) => {
+            const props = page.properties;
+
+            const getName = (prop: any) => prop?.title?.[0]?.plain_text || "Untitled";
+            const getText = (prop: any) => prop?.rich_text?.[0]?.plain_text || prop?.select?.name || "";
+
+            // Image extraction helper
+            const getUrlFromProp = getNotionUrl;
+
+            const image = getUrlFromProp(props.Image) ||
+                getUrlFromProp(props.Photo) ||
+                getUrlFromProp(props.ImageUrl) ||
+                page.cover?.external?.url ||
+                page.cover?.file?.url ||
+                null; // No default image for coaches, let frontend handle it or showing empty
+
+            return {
+                id: page.id,
+                name: getName(props.Name),
+                role: getText(props.Role) || getText(props.Title) || "Coach",
+                image: image
+            };
+        });
+    } catch (error) {
+        console.error("Failed to fetch coaches from Notion:", error);
+        return [];
+    }
+};
+// ... existing getCoaches ...
+
+export interface University {
+    id: string;
+    name: string;
+    domain: string;
+}
+
+export const getUniversities = async (): Promise<University[]> => {
+    const databaseId = process.env.NOTION_UNI_DATABASE_ID;
+
+    if (!databaseId) return [];
+
+    try {
+        const response = await notion.databases.query({
+            database_id: databaseId,
+            filter: {
+                property: "Published",
+                checkbox: {
+                    equals: true,
+                },
+            },
+        });
+
+        return response.results.map((page: any) => {
+            const props = page.properties;
+
+            const getName = (prop: any) => prop?.title?.[0]?.plain_text || "Untitled";
+            const getText = (prop: any) => prop?.rich_text?.[0]?.plain_text || prop?.url || "";
+
+            return {
+                id: page.id,
+                name: getName(props.Name),
+                domain: getText(props.Domain) || "google.com", // Fallback to avoid empty strings if missing
+            };
+        });
+    } catch (error) {
+        console.error("Failed to fetch universities from Notion:", error);
         return [];
     }
 };

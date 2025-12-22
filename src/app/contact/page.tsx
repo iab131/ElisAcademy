@@ -86,7 +86,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-gray-900">Email Us</h4>
-                                    <p className="text-gray-600 mb-1">General: info@queensglen.com</p>
+                                    <p className="text-gray-600 mb-1">General: elisacademyca@gmail.com</p>
                                     {/* <p className="text-gray-600">Admissions: admissions@queensglen.com</p> */}
                                 </div>
                             </div>

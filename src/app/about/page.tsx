@@ -1,7 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, GraduationCap, Medal, Trophy } from "lucide-react";
+import { getCoaches } from "@/lib/notion";
+import Image from "next/image";
 
-export default function AboutPage() {
+export const revalidate = 300;
+
+export default async function AboutPage() {
+    const coaches = await getCoaches();
     const features = [
         { title: "Academic Excellence", icon: GraduationCap, desc: "Providing a rigorous curriculum that meets international standards, ensuring students are prepared for top-tier universities." },
         { title: "Elite Coaching", icon: Medal, desc: "Training delivered by former professional athletes and certified coaches dedicated to player development." },
@@ -61,21 +66,35 @@ export default function AboutPage() {
                     <div className="mb-20">
                         <h3 className="text-2xl font-bold text-primary border-l-4 border-accent pl-4 mb-8">Coaching Staff</h3>
                         <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
-                            {[1, 2, 3, 4].map(i => (
-                                <div key={i} className="group">
-                                    <div className="aspect-[3/4] bg-gray-100 rounded-lg mb-4 overflow-hidden relative shadow-sm group-hover:shadow-md transition-all">
-                                        <div className="absolute inset-0 flex items-center justify-center text-gray-400 font-serif">
-                                            Coach {i}
+
+                            {coaches.length > 0 ? (
+                                coaches.map((coach) => (
+                                    <div key={coach.id} className="group">
+                                        <div className="aspect-[3/4] bg-gray-100 rounded-lg mb-4 overflow-hidden relative shadow-sm group-hover:shadow-md transition-all">
+                                            {coach.image ? (
+                                                <Image
+                                                    src={coach.image}
+                                                    alt={coach.name}
+                                                    fill
+                                                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                                />
+                                            ) : (
+                                                <div className="absolute inset-0 flex items-center justify-center text-gray-400 font-serif bg-gray-200">
+                                                    No Image
+                                                </div>
+                                            )}
                                         </div>
+                                        <h4 className="font-bold text-lg text-primary">{coach.name}</h4>
+                                        <p className="text-accent text-sm font-medium">{coach.role}</p>
                                     </div>
-                                    <h4 className="font-bold text-lg text-primary">Coming Soon</h4>
-                                    <p className="text-accent text-sm font-medium">Head Coach</p>
-                                </div>
-                            ))}
+                                ))
+                            ) : (
+                                <p className="text-gray-500">No coaches found.</p>
+                            )}
                         </div>
                     </div>
 
-                    <div>
+                    {/* <div>
                         <h3 className="text-2xl font-bold text-primary border-l-4 border-accent pl-4 mb-8">Academic Faculty</h3>
                         <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
                             {[1, 2, 3, 4].map(i => (
@@ -88,7 +107,7 @@ export default function AboutPage() {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </section>
         </div>
