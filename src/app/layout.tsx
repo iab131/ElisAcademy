@@ -17,7 +17,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://elisacademy.com'),
+  metadataBase: new URL('https://elisacademy.ca'),
   title: {
     default: "Elis Academy | Where Academics and Athletics Excel",
     template: "%s | Elis Academy"

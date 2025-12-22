@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { getPublishedPosts } from '@/lib/notion'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://elisacademy.com'
+    const baseUrl = 'https://elisacademy.ca'
 
     // Get all posts for dynamic sitemap
     const posts = await getPublishedPosts();

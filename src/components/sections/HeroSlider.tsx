@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -86,7 +86,7 @@ const VideoCard = ({ slide }: { slide: HeroSlide }) => {
     return (
         <div
             className="relative h-full w-full cursor-pointer group bg-gray-900"
-            onClick={handlePlay} 
+            onClick={handlePlay}
         >
             {slide.imageUrl ? (
                 <Image
@@ -141,6 +141,10 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             <div className="w-full px-4 md:px-6">
                 <Swiper
                     modules={[Autoplay, Pagination, Navigation]}
+                    style={{
+                        "--swiper-navigation-color": "color-mix(in srgb, var(--primary) 30%, white)",
+                        "--swiper-pagination-color": "var(--primary)",
+                    } as React.CSSProperties}
                     spaceBetween={24}
                     slidesPerView={1.2}
                     centeredSlides={false}

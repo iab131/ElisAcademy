@@ -4,10 +4,10 @@ import { ArrowRight } from 'lucide-react';
 
 export function Hero() {
     return (
-        <section className="relative flex w-full overflow-hidden bg-primary text-white">
+        <section className="relative flex w-full overflow-hidden bg-primary text-white ">
 
             {/* 📝 CONTENT SECTION */}
-            <div className="relative z-20 mx-[10vw] w-full max-w-7xl px-4 py-20 md:px-6">
+            <div className="relative z-20 mx-[20vw] w-full max-w-7xl px-4 py-20 md:px-6">
                 <div className="max-w-3xl animate-fade-in-up">
                     <span className="mb-4 inline-block rounded-full bg-accent/20 px-3 py-1 text-sm font-semibold text-accent backdrop-blur-sm">
                         Welcome to Elis Academy
