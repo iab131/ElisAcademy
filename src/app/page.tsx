@@ -136,7 +136,8 @@ export default async function Home() {
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                   <h4 className="text-white font-bold text-lg">{student.name}</h4>
-                  <p className="text-gray-200 text-sm">{student.program} • '{student.year}</p>
+                  <p className="text-gray-200 text-sm">{student.program} • {student.year}</p>
+                  <p className="text-gray-200 text-sm">{student.team}</p>
                 </div>
               </div>
             ))}

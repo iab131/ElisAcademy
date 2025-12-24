@@ -306,6 +306,7 @@ export interface Student {
     program: string;
     year: string;
     image: string;
+    team: string
 }
 
 export interface Alumni {
@@ -355,7 +356,8 @@ export const getStudents = async (): Promise<Student[]> => {
                 name: getName(props.Name),
                 program: getText(props.Program) || getText(props.Sport),
                 year: getNum(props.Year) || getNum(props.Class),
-                image: image
+                image: image,
+                team: getText(props.Team)
             };
         });
     } catch (error) {
