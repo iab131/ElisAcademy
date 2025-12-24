@@ -44,22 +44,22 @@ export default async function Home() {
       <HeroSlider slides={slides} />
 
       {/* Welcome Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-primary">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-fade-in-up">
               <span className="text-accent font-bold tracking-wider uppercase text-sm">About Us</span>
-              <h2 className="text-4xl font-serif font-bold text-primary">Welcome to Elis Academy</h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <h2 className="text-4xl font-serif font-bold text-white">Welcome to Elis Academy</h2>
+              <p className="text-lg text-white leading-relaxed">
                 At Elis Academy, we believe in the power of education and athletics to transform lives.
                 Our mission is to provide an elite environment where students can pursue their academic goals
                 while developing their athletic potential to the highest level.
               </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-lg text-white leading-relaxed">
                 Founded by a team of dedicated professionals, we are committed to fostering a culture of excellence,
                 discipline, and community. We invite you to join our family and experience the difference.
               </p>
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white mt-4" asChild>
+              <Button variant="outline" className="border-white text-primary hover:bg-white hover:text-white hover:border-accent hover:bg-accent mt-4" asChild>
                 <Link href="/about">Read More About Us</Link>
               </Button>
             </div>
@@ -78,19 +78,19 @@ export default async function Home() {
       <NewsPreview />
 
       {/* THREE OWNERS Section */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-primary">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
             <span className="text-accent font-bold tracking-wider uppercase text-sm">Leadership</span>
-            <h2 className="text-4xl font-serif font-bold text-primary mt-2">Meet Our Owners</h2>
-            <p className="mt-4 text-gray-600">
+            <h2 className="text-4xl font-serif font-bold text-white mt-2">Meet Our Owners</h2>
+            <p className="mt-4 text-gray-300">
               Guiding Elis Academy with decades of combined experience in continuous athletic development and educational leadership.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {OWNERS.map((owner, index) => (
               <div key={index} className="flex flex-col items-center text-center group">
-                <div className="w-72 h-72 rounded-full bg-white mb-6 overflow-hidden relative shadow-md border-4 border-white group-hover:border-accent transition-colors">
+                <div className="w-72 h-72 rounded-full bg-white mb-6 overflow-hidden relative shadow-md border-4 border-white transition-colors">
                   <Image
                     src={owner.image}
                     alt={owner.name}
@@ -98,9 +98,9 @@ export default async function Home() {
                     className="object-cover"
                   />
                 </div>
-                <h3 className="text-3xl font-bold text-primary">{owner.name}</h3>
+                <h3 className="text-3xl font-bold text-white">{owner.name}</h3>
                 <p className="text-xl text-accent font-medium mb-3">{owner.role}</p>
-                <p className="text-md text-gray-600 max-w-xs px-4">
+                <p className="text-md text-gray-300 max-w-xs px-4">
                   {owner.bio}
                 </p>
               </div>
@@ -146,6 +146,37 @@ export default async function Home() {
 
       {/* ALUMNI Section */}
       <section className="py-24 bg-primary text-white">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 flex flex-col md:flex-row items-start gap-16">
+          <div className="w-full md:w-1/2 grid grid-cols-1 gap-6">
+            {alumni.map((alum, index) => (
+              <div key={index} className="group relative overflow-hidden rounded-xl bg-gray-100 aspect-[3/4] shadow-sm hover:shadow-xl transition-all">
+                <div className="absolute inset-0 bg-gray-200">
+                  <Image
+                    src={alum.image}
+                    alt={alum.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 text-left">
+                  <h4 className="text-white font-bold text-lg">{alum.name}</h4>
+                  <p className="text-gray-200 text-sm">{alum.university} • '{alum.year}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="w-full md:w-1/2 flex flex-col text-center">
+            <h2 className="text-4xl font-serif font-bold mb-6 text-white">Our Alumni</h2>
+            <p className="text-lg text-gray-300 leading-relaxed mb-8">
+              Elis Academy graduates have gone on to compete at NCAA Division I universities and professional levels across the globe.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+{/* <section className="py-24 bg-primary text-white">
         <div className="mx-auto max-w-7xl px-4 md:px-6 text-center">
           <h2 className="text-3xl font-serif font-bold mb-6">Our Alumni Network</h2>
           <p className="max-w-2xl mx-auto text-lg text-gray-300 mb-10">
@@ -162,7 +193,7 @@ export default async function Home() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
-                {/* Hover Overlay */}
+             
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 text-left">
                   <h4 className="text-white font-bold text-lg">{alumni.name}</h4>
                   <p className="text-gray-200 text-sm">{alumni.university} • '{alumni.year}</p>
@@ -171,7 +202,4 @@ export default async function Home() {
             ))}
           </div>
         </div>
-      </section>
-    </div>
-  );
-}
+      </section> */}

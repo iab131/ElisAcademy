@@ -36,7 +36,7 @@ export function Navbar() {
                 <Link href="/" className="flex items-center space-x-2 px-4">
                     <div className="relative h-20 w-48">
                         <Image
-                            src="/logo/Logo-Transparent-Blue-1.png"
+                            src="/logo/logo-blue.png"
                             alt="Elis Academy"
                             fill
                             className="object-contain object-left"

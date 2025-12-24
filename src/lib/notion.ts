@@ -8,6 +8,7 @@ const notion = new Client({
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
 // Helper to extract URL from various property types and transform Google Drive links
+// Helper to extract URL from various property types and transform Google Drive links
 const getNotionUrl = (prop: any) => {
     let url: string | null = null;
     if (!prop) return null;
@@ -21,10 +22,24 @@ const getNotionUrl = (prop: any) => {
 
     if (url) {
         url = url.trim();
-        if (url.includes('drive.google.com/file/d/')) {
-            const match = url.match(/\/d\/([^/?]+)/);
-            if (match && match[1]) {
-                return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+        // Handle various Google Drive link formats
+        if (url.includes('drive.google.com')) {
+            let id = null;
+            // Try to match /file/d/ID
+            const fileMatch = url.match(/\/file\/d\/([^/?]+)/);
+            if (fileMatch) {
+                id = fileMatch[1];
+            } else {
+                // Try to match id=ID parameter
+                const idMatch = url.match(/[?&]id=([^&]+)/);
+                if (idMatch) {
+                    id = idMatch[1];
+                }
+            }
+
+            if (id) {
+                // Use a direct image display URL that works better with Next.js Image optimization
+                return `https://drive.google.com/uc?export=view&id=${id}`;
             }
         }
     }
@@ -372,8 +387,6 @@ export const getAlumni = async (): Promise<Alumni[]> => {
             const getText = (prop: any) => prop?.rich_text?.[0]?.plain_text || prop?.select?.name || "";
             const getNum = (prop: any) => prop?.number?.toString() || "";
 
-            // Image extraction helper
-            // Image extraction helper
             const getUrlFromProp = getNotionUrl;
 
             const image = getUrlFromProp(props.Image) ||

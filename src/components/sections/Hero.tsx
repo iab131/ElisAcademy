@@ -28,7 +28,7 @@ export function Hero() {
 
 
             {/* 📝 CONTENT SECTION */}
-            <div className="relative z-20 w-full bg-white px-4 py-24 md:px-6 lg:py-32">
+            <div className="relative z-20 w-full bg-primary px-4 py-24 md:px-6 lg:py-32">
                 <div className="mx-auto flex max-w-5xl flex-col items-center text-center animate-fade-in-up">
 
                     {/* Badge */}
@@ -41,7 +41,7 @@ export function Hero() {
                     </div>
 
                     {/* Heading */}
-                    <h1 className="font-serif text-5xl font-bold leading-[1.1] tracking-tight text-primary md:text-7xl lg:text-8xl">
+                    <h1 className="font-serif text-5xl font-bold leading-[1.1] tracking-tight text-white md:text-7xl lg:text-8xl">
                         Forging Future <br className="hidden md:block" />
                         <span className="inline-block bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
                             Champions
@@ -49,7 +49,7 @@ export function Hero() {
                     </h1>
 
                     {/* Subheading */}
-                    <p className="mt-8 max-w-2xl text-lg text-slate-600 md:text-xl lg:text-2xl leading-relaxed font-light">
+                    <p className="mt-8 max-w-2xl text-lg text-slate-200 md:text-xl lg:text-2xl leading-relaxed font-light">
                         We combine elite athletic training with rigorous academic preparation to develop well-rounded leaders ready for the world stage.
                     </p>
 

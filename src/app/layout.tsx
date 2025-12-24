@@ -3,7 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
+import { FooterWrapper } from "@/components/layout/FooterWrapper";
 import "./globals.css";
 
 const inter = Inter({
@@ -19,7 +19,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL('https://elisacademy.ca'),
   title: {
-    default: "Elis Academy | Where Academics and Athletics Excel",
+    default: "Elis Academy",
     template: "%s | Elis Academy"
   },
   description: "Elis Academy provides an elite environment where students pursue academic goals while developing athletic potential to the highest level.",
@@ -75,7 +75,7 @@ export default function RootLayout({
         <main className="flex-1">
           {children}
         </main>
-        <Footer />
+        <FooterWrapper />
         <Analytics />
         <SpeedInsights />
       </body>
