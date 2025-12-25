@@ -45,8 +45,18 @@ export function Footer({ variant = "light" }: FooterProps) {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/programs" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
-                                Programs
+                            <Link href="/programs/elite" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
+                                Elite Program
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/programs/ncaa" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
+                                NCAA Pathway
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/programs/canadian" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
+                                Canadian University
                             </Link>
                         </li>
                         <li>
