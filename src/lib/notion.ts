@@ -14,7 +14,10 @@ const getNotionUrl = (prop: any) => {
     if (!prop) return null;
     if (prop.type === 'url') url = prop.url;
     else if (prop.type === 'files' && prop.files?.length > 0) {
-        url = prop.files[0].file?.url || prop.files[0].external?.url;
+        const fileObj = prop.files.find((f: any) => f.file?.url || f.external?.url);
+        if (fileObj) {
+            url = fileObj.file?.url || fileObj.external?.url;
+        }
     }
     else if (prop.type === 'rich_text' && prop.rich_text?.length > 0) {
         url = prop.rich_text[0].plain_text;
@@ -83,25 +86,14 @@ export async function getPublishedPosts(): Promise<BlogPost[]> {
         const properties = page.properties;
 
         // Helper to extract URL from various property types
-        const getUrlFromProp = (prop: any) => {
-            if (!prop) return null;
-            if (prop.type === 'url') return prop.url;
-            if (prop.type === 'files' && prop.files?.length > 0) {
-                return prop.files[0].file?.url || prop.files[0].external?.url;
-            }
-            // Also support rich text if they just pasted a link as text
-            if (prop.type === 'rich_text' && prop.rich_text?.length > 0) {
-                return prop.rich_text[0].plain_text;
-            }
-            return null;
-        };
+        // Using centralized getNotionUrl to ensure proper whitespace trimming and Google Drive support
 
         // Try to find a custom property for the cover image
         // Checking likely capitalizations based on user request "title is coverimage"
-        const customCoverUrl = getUrlFromProp(properties.coverimage) ||
-            getUrlFromProp(properties.CoverImage) ||
-            getUrlFromProp(properties["Cover Image"]) ||
-            getUrlFromProp(properties["cover image"]);
+        const customCoverUrl = getNotionUrl(properties.coverimage) ||
+            getNotionUrl(properties.CoverImage) ||
+            getNotionUrl(properties["Cover Image"]) ||
+            getNotionUrl(properties["cover image"]);
 
         const pageCoverUrl = page.cover?.external?.url || page.cover?.file?.url;
 
@@ -159,23 +151,12 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     const properties = (page as any).properties;
 
     // Helper to extract URL from various property types (re-defined here for scoping, same as above)
-    const getUrlFromProp = (prop: any) => {
-        if (!prop) return null;
-        if (prop.type === 'url') return prop.url;
-        if (prop.type === 'files' && prop.files?.length > 0) {
-            return prop.files[0].file?.url || prop.files[0].external?.url;
-        }
-        // Also support rich text if they just pasted a link as text
-        if (prop.type === 'rich_text' && prop.rich_text?.length > 0) {
-            return prop.rich_text[0].plain_text;
-        }
-        return null;
-    };
+    // using global getNotionUrl instead
 
-    const customCoverUrl = getUrlFromProp(properties.coverimage) ||
-        getUrlFromProp(properties.CoverImage) ||
-        getUrlFromProp(properties["Cover Image"]) ||
-        getUrlFromProp(properties["cover image"]);
+    const customCoverUrl = getNotionUrl(properties.coverimage) ||
+        getNotionUrl(properties.CoverImage) ||
+        getNotionUrl(properties["Cover Image"]) ||
+        getNotionUrl(properties["cover image"]);
 
     const pageCoverUrl = (page as any).cover?.external?.url || (page as any).cover?.file?.url;
 
@@ -254,26 +235,19 @@ export const getHeroSlides = async (): Promise<HeroSlide[]> => {
             const type = props.Type?.select?.name || "Image";
 
             // Helper to safely extract URL from Notion properties (supports URL and Files & Media)
-            const getUrlFromProp = (prop: any) => {
-                if (!prop) return null;
-                if (prop.type === 'url') return prop.url;
-                if (prop.type === 'files' && prop.files?.length > 0) {
-                    return prop.files[0].file?.url || prop.files[0].external?.url;
-                }
-                return null;
-            };
+            // Using global getNotionUrl
 
             // Get video/media URL from the "VideoURL" property (or whatever user named it)
             // This now supports both raw URLs and uploaded Files
-            let videoUrl = getUrlFromProp(props.VideoURL);
+            let videoUrl = getNotionUrl(props.VideoURL);
 
             // Get Image URL: 
             // 1. Check for a "CoverImage" property (Files & Media) as requested by user
             // We check multiple common casing variations
-            const customCoverUrl = getUrlFromProp(props.CoverImage) ||
-                getUrlFromProp(props["Cover Image"]) ||
-                getUrlFromProp(props.coverimage) ||
-                getUrlFromProp(props.Image); // Also check generic "Image"
+            const customCoverUrl = getNotionUrl(props.CoverImage) ||
+                getNotionUrl(props["Cover Image"]) ||
+                getNotionUrl(props.coverimage) ||
+                getNotionUrl(props.Image); // Also check generic "Image"
 
             let imageUrl = customCoverUrl || page.cover?.external?.url || page.cover?.file?.url || null;
 
