@@ -251,14 +251,7 @@ export default async function Home() {
                 </span>
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                After graduating from Elis Academy, Alex played three seasons
-                for the York Simcoe Express before being drafted into the OHL.
-                His junior career included stops in Sudbury, Niagara, Barrie,
-                and Chicago. We are proud to announce his commitment to{" "}
-                <span className="text-white font-semibold">
-                  Yale University
-                </span>{" "}
-                on a full scholarship for the 2026-2027 academic year.
+                Alex played three seasons for the York Simcoe Express before being drafted into the OHL. His junior career included stops in Sudbury, Niagara, Barrie, and Chicago. After graduating from Elis Academy, Alex was accepted to <span className="text-white font-semibold">Yale University</span> on a full scholarship for the 2026-2027 academic year.
               </p>
             </div>
           </div>
