@@ -279,7 +279,7 @@ export interface Student {
     name: string;
     program: string;
     year: string;
-    image: string;
+    image: string | null;
     team: string
 }
 
@@ -323,7 +323,7 @@ export const getStudents = async (): Promise<Student[]> => {
                 getUrlFromProp(props.ImageUrl) ||
                 page.cover?.external?.url ||
                 page.cover?.file?.url ||
-                "/pics/student/stu1.JPG"; // Fallback image
+                null; // Return null if no image found
 
             return {
                 id: page.id,

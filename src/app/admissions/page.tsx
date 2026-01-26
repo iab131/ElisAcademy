@@ -21,17 +21,17 @@ export default function AdmissionsPage() {
                             <thead className="bg-gray-50 text-gray-700">
                                 <tr>
                                     <th className="p-4 border-b">Program</th>
-                                    <th className="p-4 border-b">Annual Tuition</th>
+                                    <th className="p-4 border-b">Tuition per Semester</th>
                                     <th className="p-4 border-b">Includes</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 <tr>
                                     <td className="p-4 font-medium">Full-Time Elite Program</td>
-                                    <td className="p-4">$XX,XXX</td>
-                                    <td className="p-4 text-sm text-gray-600">Academic tuition, daily training, coaching, facility access</td>
+                                    <td className="p-4">$3,500</td>
+                                    <td className="p-4 text-sm text-gray-600">Academic tutoring, on-ice training, off-ice strength and conditioning</td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <td className="p-4 font-medium">Part-Time / Seasonal</td>
                                     <td className="p-4">Varies</td>
                                     <td className="p-4 text-sm text-gray-600">Training sessions, seasonal camps</td>
@@ -40,11 +40,11 @@ export default function AdmissionsPage() {
                                     <td className="p-4 font-medium">International Students</td>
                                     <td className="p-4">$XX,XXX</td>
                                     <td className="p-4 text-sm text-gray-600">Includes boarding/homestay support, visa assistance</td>
-                                </tr>
+                                </tr> */}
                             </tbody>
                         </table>
                     </div>
-                    <p className="mt-4 text-sm text-center text-gray-500">* Financial aid and scholarships may be available for qualifying students.</p>
+                    {/* <p className="mt-4 text-sm text-center text-gray-500">* Financial aid and scholarships may be available for qualifying students.</p> */}
                 </div>
 
                 {/* Admissions Process */}
@@ -63,7 +63,7 @@ export default function AdmissionsPage() {
                         <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                             <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">2</div>
                             <h3 className="text-xl font-bold mb-3">Evaluation</h3>
-                            <p className="text-gray-600">Assessments include academic review, player interview, and on-field trial session.</p>
+                            <p className="text-gray-600">Assessments include academic review and player interview.</p>
                         </div>
 
                         <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
@@ -79,8 +79,7 @@ export default function AdmissionsPage() {
                     <CardContent className="p-8 text-center">
                         <h3 className="text-2xl font-serif font-bold text-primary mb-4">Acceptance & Confirmation</h3>
                         <p className="text-gray-600 max-w-2xl mx-auto mb-6">
-                            A non-refundable deposit is required to confirm your acceptance.
-                            Welcome packages and schedule details will be sent upon confirmation.
+                            A non-refundable deposit is required to confirm your acceptance. Welcome packages and schedule details will be sent upon confirmation.
                         </p>
                         <div className="flex justify-center gap-2 text-sm text-gray-500">
                             <span className="flex items-center"><Check className="h-4 w-4 mr-1 text-green-500" /> Secure Payment</span>

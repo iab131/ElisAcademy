@@ -8,10 +8,10 @@ export const revalidate = 300;
 export default async function AboutPage() {
     const coaches = await getCoaches();
     const features = [
-        { title: "Academic Excellence", icon: GraduationCap, desc: "Providing a rigorous curriculum that meets international standards, ensuring students are prepared for top-tier universities." },
-        { title: "Elite Coaching", icon: Medal, desc: "Training delivered by former professional athletes and certified coaches dedicated to player development." },
-        { title: "Character Development", icon: Users, desc: "Fostering leadership, discipline, and teamwork skills that extend far beyond the playing field." },
-        { title: "Proven Pathways", icon: Trophy, desc: "A track record of successful placements in NCAA Division I universities and professional academies." },
+        { title: "Academic Excellence", icon: GraduationCap, desc: "Our teachers are dedicated and highly experienced in providing a rigorous curriculum that meets international standards, ensuring students are prepared for ivy league universities." },
+        { title: "Elite Coaching", icon: Medal, desc: "All our athletic trainers are former high level athletes with years of experience developing athletes that dominate their sports." },
+        { title: "Character Development", icon: Users, desc: "Elis Academy also fosters development in areas such as leadership, discipline, teamwork, and self-advocacy." },
+        { title: "Proven Pathways", icon: Trophy, desc: "We have a track record of successfully placing student-athletes in NCAA Division I universities." },
     ];
 
     return (
@@ -59,8 +59,8 @@ export default async function AboutPage() {
             <section className="py-24 bg-white">
                 <div className="mx-auto max-w-7xl px-4">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl font-serif font-bold text-primary">Meet Our Team</h2>
-                        <p className="mt-4 text-gray-600">The dedicated professionals guiding our students.</p>
+                        <h2 className="text-4xl font-serif font-bold text-primary">Meet Our Coaches</h2>
+                        <p className="mt-4 text-gray-600">Our coaches have decades of experience playing and coaching at the very highest levels of hockey</p>
                     </div>
 
                     <div className="mb-20">

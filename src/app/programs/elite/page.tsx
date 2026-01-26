@@ -16,11 +16,10 @@ export default function EliteProgramPage() {
                     <div>
                         <h2 className="text-3xl font-serif font-bold text-primary mb-6">Program Overview</h2>
                         <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                            The Elite Program at Elis Academy is designed for the serious student-athlete.
-                            It combines professional-grade athletic training with a flexible, high-standard academic curriculum.
+                            The Elite Program at Elis Academy is designed for the student-athlete looking to attend the best universities in North America. This program combines professional-level athletic training with expert academic assistance. 
                         </p>
                         <ul className="space-y-4">
-                            {["Daily Professional Training", "Strength & Conditioning", "Academic Tutoring & Support", "Competition Analysis"].map((item) => (
+                            {["Daily on-ice and off-ice training", "Athlete specific Strength & Conditioning", "Academic Tutoring & Support", "Guidance Counseling"].map((item) => (
                                 <li key={item} className="flex items-center text-gray-700">
                                     <CheckCircle className="h-5 w-5 text-accent mr-3" />
                                     {item}
@@ -64,7 +63,7 @@ export default function EliteProgramPage() {
                                 {/* Tuesday */}
                                 <tr>
                                     <td className="p-4 border font-bold text-primary bg-blue-50/50" rowSpan={2}>Tuesday</td>
-                                    <td className="p-4 border">2:45 PM - 3:30 PM</td>
+                                    <td className="p-4 border">2:30 PM - 3:30 PM</td> 
                                     <td className="p-4 border font-semibold">Strength Training</td>
                                 </tr>
                                 <tr>
@@ -86,7 +85,7 @@ export default function EliteProgramPage() {
                                 {/* Thursday */}
                                 <tr>
                                     <td className="p-4 border font-bold text-primary bg-blue-50/50" rowSpan={2}>Thursday</td>
-                                    <td className="p-4 border">2:45 PM - 3:30 PM</td>
+                                    <td className="p-4 border">2:30 PM - 3:30 PM</td>
                                     <td className="p-4 border font-semibold">Strength Training</td>
                                 </tr>
                                 <tr>

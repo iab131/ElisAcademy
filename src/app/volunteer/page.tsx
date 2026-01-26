@@ -24,6 +24,9 @@ export default function VolunteerPage() {
     return (
         <div className="w-full">
             <div className="bg-primary py-24 text-center text-white">
+                <div className="inline-block bg-accent px-6 py-2 rounded-full mb-6 shadow-lg animate-fade-in-up">
+                    <span className="text-white font-bold tracking-widest uppercase text-sm">Coming Soon</span>
+                </div>
                 <h1 className="text-5xl font-serif font-bold">Volunteer</h1>
                 <p className="mt-4 text-xl text-gray-200">Give Back to the Community</p>
             </div>

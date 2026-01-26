@@ -25,7 +25,7 @@ export default function ApplicationsPage() {
                         <div>
                             <h3 className="text-2xl font-bold mb-4">Requirements</h3>
                             <p className="text-gray-600 mb-6">
-                                To compete in NCAA Division I or II sports, you must meet academic and amateurism standards set by the NCAA Eligibility Center.
+                                To compete in NCAA Division I sports, you must meet academic and amateurism standards set by the NCAA Eligibility Center.
                             </p>
                             <ul className="space-y-3">
                                 {["Graduate from high school", "Complete 16 core courses", "Minimum GPA in core courses", "SAT or ACT scores (if applicable)", "Amateurism certification"].map(item => (
@@ -42,12 +42,12 @@ export default function ApplicationsPage() {
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm text-gray-600 mb-4">
-                                    There are over 350 Division I colleges. We help you target schools that match your athletic and academic profile.
+                                    There are 60 NCAA Division I hockey universities and colleges. We provide guidance in matching schools with your particular academic and athletic goals. 
                                 </p>
                                 <div className="space-y-2">
                                     <div className="font-semibold text-primary">Top D1 Conferences:</div>
                                     <div className="flex flex-wrap gap-2">
-                                        {["ACC", "Big 10", "SEC", "Pac-12", "Ivy League"].map(c => (
+                                        {["Atlantic Hockey ", "Big 10", "ECAC", "Hockey East", "NCHC", "WCHA"].map(c => (
                                             <span key={c} className="bg-white px-3 py-1 rounded-md text-sm border shadow-sm">{c}</span>
                                         ))}
                                     </div>
@@ -65,7 +65,7 @@ export default function ApplicationsPage() {
                         <h2 className="text-3xl font-serif font-bold text-primary">Target Division 1 Universities</h2>
                     </div>
                     <p className="text-gray-600 mb-8 text-lg">
-                        We help our student-athletes target and connect with top-tier NCAA Division 1 programs across the nation.
+                        We help our student-athletes target and connect with the best NCAA Division I programs across the country.
                     </p>
 
                     <UniversityGrid />

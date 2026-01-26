@@ -50,7 +50,7 @@ export function Hero() {
 
                     {/* Subheading */}
                     <p className="mt-8 max-w-2xl text-lg text-slate-200 md:text-xl lg:text-2xl leading-relaxed font-light">
-                        We combine elite athletic training with rigorous academic preparation to develop well-rounded leaders ready for the world stage.
+                        Elis Academy combines elite athletic training with rigorous academic preparation to develop students to successfully compete both in the classroom and on the field of play. 
                     </p>
 
                     {/* Buttons */}
