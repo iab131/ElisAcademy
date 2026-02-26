@@ -20,6 +20,9 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://elisacademy.ca'),
+  verification: {
+    google: "4caMhD2wg17sUw-ZIJnURrCjfPrPOFrOZNVka21tyFg",
+  },
   title: {
     default: "Elis Academy",
     template: "%s | Elis Academy"
