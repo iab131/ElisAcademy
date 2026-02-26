@@ -7,9 +7,9 @@ const notion = new Client({
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
-// Helper to extract URL from various property types and transform Google Drive links
-// Helper to extract URL from various property types and transform Google Drive links
-const getNotionUrl = (prop: any) => {
+// Helper to extract the raw URL string from a Notion property.
+// Does NOT transform Google Drive URLs — callers decide how to handle them.
+const getRawNotionUrl = (prop: any): string | null => {
     let url: string | null = null;
     if (!prop) return null;
     if (prop.type === 'url') url = prop.url;
@@ -22,31 +22,36 @@ const getNotionUrl = (prop: any) => {
     else if (prop.type === 'rich_text' && prop.rich_text?.length > 0) {
         url = prop.rich_text[0].plain_text;
     }
+    return url ? url.trim() : null;
+};
 
-    if (url) {
-        url = url.trim();
-        // Handle various Google Drive link formats
-        if (url.includes('drive.google.com')) {
-            let id = null;
-            // Try to match /file/d/ID
-            const fileMatch = url.match(/\/file\/d\/([^/?]+)/);
-            if (fileMatch) {
-                id = fileMatch[1];
-            } else {
-                // Try to match id=ID parameter
-                const idMatch = url.match(/[?&]id=([^&]+)/);
-                if (idMatch) {
-                    id = idMatch[1];
-                }
-            }
+// For IMAGE properties: transforms Google Drive share links into a direct
+// display URL that works with Next.js Image optimisation.
+const getNotionUrl = (prop: any): string | null => {
+    const url = getRawNotionUrl(prop);
+    if (!url) return null;
 
-            if (id) {
-                // Use a direct image display URL that works better with Next.js Image optimization
-                return `https://drive.google.com/uc?export=view&id=${id}`;
-            }
+    if (url.includes('drive.google.com')) {
+        let id: string | null = null;
+        const fileMatch = url.match(/\/file\/d\/([^/?]+)/);
+        if (fileMatch) {
+            id = fileMatch[1];
+        } else {
+            const idMatch = url.match(/[?&]id=([^&]+)/);
+            if (idMatch) id = idMatch[1];
+        }
+        if (id) {
+            // uc?export=view works for images; videos need /preview (handled separately)
+            return `https://drive.google.com/uc?export=view&id=${id}`;
         }
     }
     return url;
+};
+
+// For VIDEO properties: returns the original URL unchanged so that
+// HeroSlider can build the correct embeddable /preview URL.
+const getNotionVideoUrl = (prop: any): string | null => {
+    return getRawNotionUrl(prop);
 };
 
 export interface BlogPost {
@@ -237,9 +242,9 @@ export const getHeroSlides = async (): Promise<HeroSlide[]> => {
             // Helper to safely extract URL from Notion properties (supports URL and Files & Media)
             // Using global getNotionUrl
 
-            // Get video/media URL from the "VideoURL" property (or whatever user named it)
-            // This now supports both raw URLs and uploaded Files
-            let videoUrl = getNotionUrl(props.VideoURL);
+            // Get video/media URL — use the raw helper so Drive links aren't
+            // converted to uc?export=view (which blocks iframe embedding).
+            let videoUrl = getNotionVideoUrl(props.VideoURL);
 
             // Get Image URL: 
             // 1. Check for a "CoverImage" property (Files & Media) as requested by user

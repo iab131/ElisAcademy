@@ -15,16 +15,28 @@ const isDirectVideo = (url: string) => {
     return url.match(/\.(mp4|webm|ogg)$/i);
 };
 
+// Helper to extract a Google Drive file ID from any Drive URL format
+const getDriveFileId = (url: string): string | null => {
+    // Matches /file/d/FILE_ID or /d/FILE_ID
+    const fileMatch = url.match(/\/(?:file\/)?d\/([^/?&]+)/);
+    if (fileMatch) return fileMatch[1];
+    // Matches id=FILE_ID query param (used by uc?export=view&id=... links)
+    const idMatch = url.match(/[?&]id=([^&]+)/);
+    if (idMatch) return idMatch[1];
+    return null;
+};
+
 // Helper to process video URLs (Google Drive, Vimeo)
 const getVideoEmbedSrc = (url: string, autoplay: boolean = false) => {
-    // Google Drive
-    if (url.includes("drive.google.com")) {
-        // Convert /view to /preview for embedding
-        let embedUrl = url;
-        if (url.includes('/view')) {
-            embedUrl = url.replace(/\/view.*/, "/preview");
+    // Google Drive — including drive.usercontent.google.com direct links
+    if (url.includes("drive.google.com") || url.includes("drive.usercontent.google.com")) {
+        const id = getDriveFileId(url);
+        if (id) {
+            // /preview is the only embeddable format; /view and uc?export=view both refuse to load in iframes
+            return `https://drive.google.com/file/d/${id}/preview`;
         }
-        return embedUrl;
+        // Fallback: try replacing /view with /preview on the original URL
+        return url.replace(/\/view.*/, "/preview");
     }
 
     // Vimeo
@@ -102,15 +114,17 @@ const VideoCard = ({ slide }: { slide: HeroSlide }) => {
                 </div>
             )}
 
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-colors" />
-
-            {/* Play Button */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-                <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-white/30 shadow-lg">
-                    <Play className="w-8 h-8 text-white fill-current ml-1" />
-                </div>
-            </div>
+            {/* Dark Overlay + Play Button — only for Video type */}
+            {slide.type === "Video" && slide.videoUrl && (
+                <>
+                    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-colors" />
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                        <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-white/30 shadow-lg">
+                            <Play className="w-8 h-8 text-white fill-current ml-1" />
+                        </div>
+                    </div>
+                </>
+            )}
 
             {/* Title Overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
