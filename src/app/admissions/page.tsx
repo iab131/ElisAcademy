@@ -2,10 +2,23 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Admissions",
+    description: "Apply to Elis Academy. Learn about our admissions process, tuition and fees, and what it takes to join our elite student-athlete program in Aurora, Ontario.",
+    openGraph: {
+        title: "Admissions | Elis Academy",
+        description: "Join the Elis Academy Family — tuition details, application process, and enrollment information.",
+    },
+};
+
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export default function AdmissionsPage() {
     return (
         <div className="w-full">
+            <Breadcrumbs items={[{ name: "Admissions" }]} />
             <div className="bg-primary py-24 text-center text-white">
                 <h1 className="text-5xl font-serif font-bold">Admissions</h1>
                 <p className="mt-4 text-xl text-gray-200">Join the Elis Academy Family</p>

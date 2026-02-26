@@ -3,10 +3,26 @@ import { Button } from "@/components/ui/button";
 import { Check, Info, School } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UniversityGrid } from "@/components/programs/UniversityGrid";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "NCAA Applications",
+    description: "Your guide to NCAA Division I university athletics. Learn about eligibility requirements, core courses, and how Elis Academy prepares student-athletes for top D1 programs.",
+    openGraph: {
+        title: "NCAA Applications | Elis Academy",
+        description: "Your Guide to University Athletics — requirements, D1 conferences, and target universities.",
+    },
+};
+
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export default function ApplicationsPage() {
     return (
         <div className="w-full">
+            <Breadcrumbs items={[
+                { name: "Programs", href: "/programs" },
+                { name: "NCAA Applications" }
+            ]} />
             <div className="bg-primary py-24 text-center text-white">
                 <h1 className="text-5xl font-serif font-bold">NCAA Applications</h1>
                 <p className="mt-4 text-xl text-gray-200">Your Guide to University Athletics</p>
@@ -42,7 +58,7 @@ export default function ApplicationsPage() {
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm text-gray-600 mb-4">
-                                    There are 60 NCAA Division I hockey universities and colleges. We provide guidance in matching schools with your particular academic and athletic goals. 
+                                    There are 60 NCAA Division I hockey universities and colleges. We provide guidance in matching schools with your particular academic and athletic goals.
                                 </p>
                                 <div className="space-y-2">
                                     <div className="font-semibold text-primary">Top D1 Conferences:</div>

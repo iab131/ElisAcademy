@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             description: post.description || post.title,
             type: 'article',
             publishedTime: post.date,
-            url: `https://elisacademy.com/news/${post.slug}`,
+            url: `https://elisacademy.ca/news/${post.slug}`,
             images: post.coverImage ? [
                 {
                     url: post.coverImage,

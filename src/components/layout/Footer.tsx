@@ -31,12 +31,11 @@ export function Footer({ variant = "light" }: FooterProps) {
                         "mt-4 max-w-xs text-sm leading-relaxed",
                         isDark ? "text-gray-300" : "text-gray-600"
                     )}>
-                        Empowering students through excellence in academics and athletics.
-                        Building the next generation of leaders on and off the field.
+                        Premier hockey academy in Aurora, Ontario. Combining elite athletic training with Ontario secondary school academics to develop NCAA-ready student-athletes.
                     </p>
                 </div>
 
-                <div>
+                <nav aria-label="Footer navigation">
                     <h3 className={cn("font-semibold mb-4", isDark ? "text-white" : "text-primary")}>Quick Links</h3>
                     <ul className={cn("space-y-2 text-sm", isDark ? "text-gray-300" : "text-gray-600")}>
                         <li>
@@ -70,28 +69,41 @@ export function Footer({ variant = "light" }: FooterProps) {
                             </Link>
                         </li>
                         <li>
+                            <Link href="/news" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
+                                News &amp; Events
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/contact" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
                                 Contact
                             </Link>
                         </li>
                     </ul>
-                </div>
+                </nav>
 
-                <div>
+                <div itemScope itemType="https://schema.org/LocalBusiness">
                     <h3 className={cn("font-semibold mb-4", isDark ? "text-white" : "text-primary")}>Contact Us</h3>
-                    <ul className={cn("space-y-2 text-sm", isDark ? "text-gray-300" : "text-gray-600")}>
-                        <li>135 Industrial Pkwy N <br /> Aurora, ON L4G 4C4</li>
-                        <li>
-                            <a href="mailto:elisacademyca@gmail.com" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
+                    <address className={cn("space-y-2 text-sm not-italic", isDark ? "text-gray-300" : "text-gray-600")}>
+                        <p itemProp="name" className="sr-only">Elis Academy</p>
+                        <p>
+                            <span itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+                                <span itemProp="streetAddress">135 Industrial Pkwy N</span><br />
+                                <span itemProp="addressLocality">Aurora</span>,{" "}
+                                <span itemProp="addressRegion">ON</span>{" "}
+                                <span itemProp="postalCode">L4G 4C4</span>
+                            </span>
+                        </p>
+                        <p>
+                            <a href="mailto:elisacademyca@gmail.com" itemProp="email" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
                                 elisacademyca@gmail.com
                             </a>
-                        </li>
-                        <li>
-                            <a href="tel:+13658875989" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
+                        </p>
+                        <p>
+                            <a href="tel:+13658875989" itemProp="telephone" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
                                 +1 365 887 5989
                             </a>
-                        </li>
-                    </ul>
+                        </p>
+                    </address>
                 </div>
             </div>
             <div className={cn(

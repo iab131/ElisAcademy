@@ -1,6 +1,16 @@
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Programs",
+    description: "Explore Elis Academy's programs: our flagship Elite Program for full-time student-athletes, and detailed NCAA & Canadian university application guidance.",
+    openGraph: {
+        title: "Programs | Elis Academy",
+        description: "Pathways to Success — elite athletic training combined with top-tier academic support.",
+    },
+};
 
 export default function ProgramsPage() {
     return (

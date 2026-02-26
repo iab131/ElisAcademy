@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 export function Hero() {
     return (
-        <section className="relative w-full overflow-hidden bg-primary text-white">
+        <section className="relative w-full overflow-hidden bg-primary text-white" aria-label="Hero — Elis Academy, Elite Hockey Training in Aurora, Ontario">
 
             {/* VIDEO SECTION */}
             <div className="relative w-screen h-[100vh] max-h-[100svh] overflow-hidden">
@@ -21,6 +21,8 @@ export function Hero() {
     "
                     allow="autoplay; fullscreen; picture-in-picture"
                     allowFullScreen
+                    loading="lazy"
+                    title="Elis Academy training highlights — elite hockey and sports training in Aurora, Ontario"
                 />
             </div>
 
@@ -42,15 +44,15 @@ export function Hero() {
 
                     {/* Heading */}
                     <h1 className="font-serif text-5xl font-bold leading-[1.1] tracking-tight text-white md:text-7xl lg:text-8xl">
-                        Forging Future <br className="hidden md:block" />
-                        <span className="inline-block bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
-                            Champions
+                        Elite Hockey &amp; Sports <br className="hidden md:block" />
+                        Academy in <span className="inline-block bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
+                            Aurora, Ontario
                         </span>
                     </h1>
 
                     {/* Subheading */}
                     <p className="mt-8 max-w-2xl text-lg text-slate-200 md:text-xl lg:text-2xl leading-relaxed font-light">
-                        Elis Academy combines elite athletic training with rigorous academic preparation to develop students to successfully compete both in the classroom and on the field of play. 
+                        Elis Academy combines elite on-ice training with rigorous Ontario secondary school academics, preparing student-athletes in Aurora and the Greater Toronto Area for NCAA Division I scholarships and professional sports careers.
                     </p>
 
                     {/* Buttons */}

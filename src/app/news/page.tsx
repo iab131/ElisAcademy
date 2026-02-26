@@ -2,6 +2,16 @@ import { getPublishedPosts } from "@/lib/notion";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "News & Events",
+    description: "Latest news, updates, and events from Elis Academy. Stay up to date with our student-athletes, competitions, and community.",
+    openGraph: {
+        title: "News & Events | Elis Academy",
+        description: "Latest Updates from Elis Academy — news, events, and highlights.",
+    },
+};
 
 export const revalidate = 300; // Revalidate every 300 seconds (5 minutes)
 

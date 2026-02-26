@@ -40,23 +40,23 @@ export const revalidate = 300;
 export default async function Home() {
   const slides = await getHeroSlides();
   const students = (await getStudents()).sort((a, b) => {
-  const getLastName = (name: string) =>
-    name.trim().split(/\s+/).pop() || "";
+    const getLastName = (name: string) =>
+      name.trim().split(/\s+/).pop() || "";
 
-  const lastA = getLastName(a.name);
-  const lastB = getLastName(b.name);
+    const lastA = getLastName(a.name);
+    const lastB = getLastName(b.name);
 
-  const lastCompare = lastA.localeCompare(lastB, undefined, {
-    sensitivity: "base",
+    const lastCompare = lastA.localeCompare(lastB, undefined, {
+      sensitivity: "base",
+    });
+
+    if (lastCompare !== 0) return lastCompare;
+
+    // tie-breaker by full name
+    return a.name.localeCompare(b.name, undefined, {
+      sensitivity: "base",
+    });
   });
-
-  if (lastCompare !== 0) return lastCompare;
-
-  // tie-breaker by full name
-  return a.name.localeCompare(b.name, undefined, {
-    sensitivity: "base",
-  });
-});
 
   const alumni = await getAlumni();
   return (
@@ -65,7 +65,7 @@ export default async function Home() {
       <HeroSlider slides={slides} />
 
       {/* Welcome Section */}
-      <section className="py-24 bg-primary">
+      <section className="py-24 bg-primary" aria-label="About Elis Academy">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-fade-in-up">
@@ -73,19 +73,13 @@ export default async function Home() {
                 About Us
               </span>
               <h2 className="text-4xl font-serif font-bold text-white">
-                Welcome to Elis Academy
+                Welcome to Elis Academy — Aurora, Ontario
               </h2>
               <p className="text-lg text-white leading-relaxed">
-                At Elis Academy, we believe in the importance of both academics
-                and athletics to the lives of young people. Our mission is to
-                provide an environment where students can succeed academically
-                while developing their athletic potential to the highest level.
+                Located in Aurora, Ontario, Elis Academy is a premier hockey academy and private school where student-athletes don&apos;t have to choose between academics and athletics. Our mission is to provide elite on-ice training alongside Ontario secondary school education, preparing young athletes for NCAA Division I scholarships and professional careers.
               </p>
               <p className="text-lg text-white leading-relaxed">
-                Founded by a team of dedicated professionals in both education
-                and sports, we are committed to fostering a culture of
-                excellence. We invite you to join our family and experience the
-                difference.
+                Founded by former professional hockey players and experienced educators, our coaching staff brings decades of NHL, AHL, and OHL experience to every training session. We invite families across the GTA to join our academy and experience the Elis difference.
               </p>
               <Button
                 variant="outline"
@@ -113,18 +107,17 @@ export default async function Home() {
       <NewsPreview />
 
       {/* THREE OWNERS Section */}
-      <section className="py-24 bg-primary">
+      <section className="py-24 bg-primary" aria-label="Elis Academy coaching and leadership team">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
             <span className="text-accent font-bold tracking-wider uppercase text-sm">
               Leadership
             </span>
             <h2 className="text-4xl font-serif font-bold text-white mt-2">
-              Meet Our Team
+              Meet Our Coaching &amp; Leadership Team
             </h2>
             <p className="mt-4 text-gray-300">
-              Guiding Elis Academy with decades of combined experience in
-              continuous athletic development and educational leadership.
+              Guiding Elis Academy with decades of combined NHL, AHL, OHL, and NCAA experience in elite hockey development and educational leadership.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -136,7 +129,7 @@ export default async function Home() {
                 <div className="w-72 h-72 rounded-full bg-white mb-6 overflow-hidden relative shadow-md border-4 border-white transition-colors">
                   <Image
                     src={owner.image}
-                    alt={owner.name}
+                    alt={`${owner.name} — ${owner.role} at Elis Academy hockey training program`}
                     fill
                     className="object-cover"
                   />
@@ -155,7 +148,7 @@ export default async function Home() {
       </section>
 
       {/* STUDENTS Section */}
-      <section className="py-24 bg-white border-t border-gray-100">
+      <section className="py-24 bg-white border-t border-gray-100" aria-label="Current student-athletes at Elis Academy">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="flex justify-between items-end mb-12">
             <div>
@@ -163,7 +156,7 @@ export default async function Home() {
                 Community
               </span>
               <h2 className="text-3xl font-serif font-bold text-primary mt-2">
-                Our Students
+                Our Student-Athletes
               </h2>
             </div>
             <Button variant="link" asChild className="hidden md:inline-flex">
@@ -181,7 +174,7 @@ export default async function Home() {
                   {student.image ? (
                     <Image
                       src={student.image}
-                      alt={student.name}
+                      alt={`${student.name} — student-athlete at Elis Academy, ${student.program}`}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />

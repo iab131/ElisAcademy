@@ -46,7 +46,7 @@ export function Navbar() {
                 </Link>
 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex md:gap-8 md:items-center">
+                <nav className="hidden md:flex md:gap-8 md:items-center" aria-label="Main navigation">
                     <Link
                         href="/"
                         className={cn(

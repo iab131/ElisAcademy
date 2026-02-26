@@ -2,6 +2,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, GraduationCap, Medal, Trophy } from "lucide-react";
 import { getCoaches } from "@/lib/notion";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "About Us",
+    description: "Learn about Elis Academy's mission, philosophy, and coaching staff. Building champions for life through elite education and sport in Ontario, Canada.",
+    openGraph: {
+        title: "About Elis Academy",
+        description: "Building Champions for Life through Education and Sport. Meet our world-class coaching staff and learn about our mission.",
+    },
+};
+
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export const revalidate = 300;
 
@@ -16,22 +28,20 @@ export default async function AboutPage() {
 
     return (
         <div className="w-full">
+            <Breadcrumbs items={[{ name: "About Us" }]} />
             {/* Header */}
             <div className="bg-primary py-24 text-center text-white">
                 <h1 className="text-5xl font-serif font-bold animate-fade-in-up">About Elis Academy</h1>
-                <p className="mt-4 text-xl text-gray-200 max-w-2xl mx-auto">Building Champions for Life through Education and Sport</p>
+                <p className="mt-4 text-xl text-gray-200 max-w-2xl mx-auto">Building Champions for Life through Elite Hockey Training &amp; Education in Aurora, Ontario</p>
             </div>
 
             {/* Intro */}
-            <section className="py-20 bg-white">
+            <section className="py-20 bg-white" aria-label="Our philosophy and mission">
                 <div className="mx-auto max-w-4xl px-4 text-center">
                     <span className="text-accent font-bold tracking-wider uppercase text-sm">Our Philosophy</span>
                     <h2 className="text-3xl font-serif font-bold text-primary mt-2 mb-6">A Mission of Excellence</h2>
                     <p className="text-lg text-gray-600 leading-relaxed">
-                        Elis Academy was established with a singular vision: to create an environment where student-athletes
-                        do not have to compromise between their education and their sport. We provide a holistic approach
-                        that integrates high-performance athletic training with top-tier academic support, empowering
-                        young individuals to achieve their full potential.
+                        Elis Academy was established in Aurora, Ontario with a singular vision: to create an elite training environment where student-athletes do not have to compromise between their education and their sport. We provide a holistic approach that integrates professional-level hockey training with Ontario secondary school academics, empowering young athletes across the Greater Toronto Area to achieve their full potential and earn NCAA Division I scholarships.
                     </p>
                 </div>
             </section>
@@ -60,7 +70,7 @@ export default async function AboutPage() {
                 <div className="mx-auto max-w-7xl px-4">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl font-serif font-bold text-primary">Meet Our Coaches</h2>
-                        <p className="mt-4 text-gray-600">Our coaches have decades of experience playing and coaching at the very highest levels of hockey</p>
+                        <p className="mt-4 text-gray-600">Our coaches have decades of experience playing and coaching hockey at the NHL, AHL, OHL, and NCAA levels, bringing elite-level expertise to every session at our Aurora training facility.</p>
                     </div>
 
                     <div className="mb-20">
@@ -74,7 +84,7 @@ export default async function AboutPage() {
                                             {coach.image ? (
                                                 <Image
                                                     src={coach.image}
-                                                    alt={coach.name}
+                                                    alt={`${coach.name} — ${coach.role} at Elis Academy, elite hockey coaching in Aurora, Ontario`}
                                                     fill
                                                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                                                 />

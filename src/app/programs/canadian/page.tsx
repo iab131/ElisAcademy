@@ -1,6 +1,16 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CheckCircle, Info } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Canadian University Applications",
+    description: "Guide to applying to Canadian universities and U SPORTS varsity programs. Application steps, OUAC process, and requirements for Ontario student-athletes.",
+    openGraph: {
+        title: "Canadian University Applications | Elis Academy",
+        description: "Your Guide to Canadian University Athletics — OUAC applications, U SPORTS, and varsity recruitment.",
+    },
+};
 
 export default function CanadianProgramPage() {
     return (

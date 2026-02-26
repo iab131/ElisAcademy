@@ -1,6 +1,16 @@
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ArrowRight, Calendar, Users, Briefcase } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Volunteer",
+    description: "Volunteer with Elis Academy. Support our student-athletes through event volunteering, mentorship, and administrative roles.",
+    openGraph: {
+        title: "Volunteer | Elis Academy",
+        description: "Give Back to the Community — volunteer opportunities for passionate individuals.",
+    },
+};
 
 export default function VolunteerPage() {
     const roles = [
