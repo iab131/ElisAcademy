@@ -2,7 +2,7 @@ import { getPostBySlug } from "@/lib/notion";
 import ReactMarkdown from "react-markdown";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import { NotionImage } from "@/components/ui/NotionImage";
 import { ArrowLeft } from "lucide-react";
 
 import type { Metadata } from "next";
@@ -63,7 +63,7 @@ export default async function BlogPostPage({ params }: Props) {
             {/* Header Image */}
             {post.coverImage ? (
                 <div className="w-full h-[400px] md:h-[500px] relative overflow-hidden group">
-                    <Image
+                    <NotionImage
                         src={post.coverImage}
                         alt={post.title}
                         fill

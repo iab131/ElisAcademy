@@ -1,7 +1,7 @@
 import { getPublishedPosts } from "@/lib/notion";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
+import { NotionImage } from "@/components/ui/NotionImage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default async function NewsIndexPage() {
                             <Card className="h-full border-none shadow-sm hover:shadow-xl transition-all overflow-hidden bg-gray-50 flex flex-col">
                                 <div className="relative h-56 w-full overflow-hidden bg-gray-200">
                                     {post.coverImage ? (
-                                        <Image
+                                        <NotionImage
                                             src={post.coverImage}
                                             alt={post.title}
                                             fill

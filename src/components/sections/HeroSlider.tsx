@@ -6,7 +6,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import Image from "next/image";
+import { NotionImage } from "@/components/ui/NotionImage";
 import { HeroSlide } from "@/lib/notion";
 import { Play } from "lucide-react";
 
@@ -101,7 +101,7 @@ const VideoCard = ({ slide }: { slide: HeroSlide }) => {
             onClick={handlePlay}
         >
             {slide.imageUrl ? (
-                <Image
+                <NotionImage
                     src={slide.imageUrl}
                     alt={slide.title}
                     fill

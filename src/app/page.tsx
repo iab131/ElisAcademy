@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { NotionImage } from "@/components/ui/NotionImage";
 import { User } from "lucide-react";
 import { Hero } from "@/components/sections/Hero";
 import { HeroSlider } from "@/components/sections/HeroSlider";
@@ -172,7 +173,7 @@ export default async function Home() {
               >
                 <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
                   {student.image ? (
-                    <Image
+                    <NotionImage
                       src={student.image}
                       alt={`${student.name} — student-athlete at Elis Academy, ${student.program}`}
                       fill
@@ -208,7 +209,7 @@ export default async function Home() {
                 className="group relative overflow-hidden rounded-xl bg-gray-100 aspect-[3/4] shadow-sm hover:shadow-xl transition-all"
               >
                 <div className="absolute inset-0 bg-gray-200">
-                  <Image
+                  <NotionImage
                     src={alum.image}
                     alt={alum.name}
                     fill

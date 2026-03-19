@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getPublishedPosts } from "@/lib/notion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { NotionImage } from "@/components/ui/NotionImage";
 
 export async function NewsPreview() {
     const posts = await getPublishedPosts();
@@ -28,7 +28,7 @@ export async function NewsPreview() {
                                 <div className="relative h-56 w-full overflow-hidden bg-gray-200">
                                     {/* Image */}
                                     {post.coverImage ? (
-                                                    <Image
+                                                    <NotionImage
                                                         src={post.coverImage}
                                                         alt={post.title}
                                                         fill

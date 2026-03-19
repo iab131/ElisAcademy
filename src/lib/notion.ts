@@ -7,6 +7,28 @@ const notion = new Client({
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+/**
+ * Proxy Notion S3 signed image URLs through our `/api/notion-image` route.
+ * Notion-hosted files use temporary signed URLs on
+ * `prod-files-secure.s3.us-west-2.amazonaws.com` that expire after ~1 hour.
+ * On a cold page load the Next.js Image component tries to optimise the
+ * image at build/request time, but the signed URL may already be expired,
+ * resulting in a broken-image icon on the first visit (works on reload
+ * because the browser / CDN cache is now warm).
+ *
+ * This helper rewrites those S3 URLs into a local proxy URL:
+ *   /api/notion-image?url=<encoded-s3-url>
+ *
+ * External URLs (Google Drive, Unsplash, etc.) are returned as-is.
+ */
+const proxyNotionImage = (url: string | null): string | null => {
+    if (!url) return null;
+    if (url.includes('prod-files-secure.s3.us-west-2.amazonaws.com')) {
+        return `/api/notion-image?url=${encodeURIComponent(url)}`;
+    }
+    return url;
+};
+
 // Helper to extract the raw URL string from a Notion property.
 // Does NOT transform Google Drive URLs — callers decide how to handle them.
 const getRawNotionUrl = (prop: any): string | null => {
@@ -27,6 +49,7 @@ const getRawNotionUrl = (prop: any): string | null => {
 
 // For IMAGE properties: transforms Google Drive share links into a direct
 // display URL that works with Next.js Image optimisation.
+// Also proxies Notion S3 signed URLs through our API route.
 const getNotionUrl = (prop: any): string | null => {
     const url = getRawNotionUrl(prop);
     if (!url) return null;
@@ -45,7 +68,7 @@ const getNotionUrl = (prop: any): string | null => {
             return `https://drive.google.com/uc?export=view&id=${id}`;
         }
     }
-    return url;
+    return proxyNotionImage(url);
 };
 
 // For VIDEO properties: returns the original URL unchanged so that
@@ -100,14 +123,14 @@ export async function getPublishedPosts(): Promise<BlogPost[]> {
             getNotionUrl(properties["Cover Image"]) ||
             getNotionUrl(properties["cover image"]);
 
-        const pageCoverUrl = page.cover?.external?.url || page.cover?.file?.url;
+        const pageCoverUrl = proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url);
 
         return {
             id: page.id,
             title: properties.Title?.title[0]?.plain_text || "Untitled",
             slug: properties.Slug?.rich_text[0]?.plain_text || page.id,
             date: properties.Date?.date?.start || new Date().toISOString().split('T')[0],
-            coverImage: customCoverUrl || pageCoverUrl || null,
+            coverImage: customCoverUrl || pageCoverUrl || undefined,
             description: properties.Description?.rich_text[0]?.plain_text || "",
             content: properties.Content?.rich_text[0]?.plain_text || "",
         };
@@ -163,7 +186,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
         getNotionUrl(properties["Cover Image"]) ||
         getNotionUrl(properties["cover image"]);
 
-    const pageCoverUrl = (page as any).cover?.external?.url || (page as any).cover?.file?.url;
+    const pageCoverUrl = proxyNotionImage((page as any).cover?.external?.url || (page as any).cover?.file?.url);
 
     // Content: Prioritize Page Body (Markdown blocks), fallback to "Content" property
     let finalContent = mdString.parent;
@@ -178,7 +201,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
         title: properties.Title?.title[0]?.plain_text || "Untitled",
         slug: properties.Slug?.rich_text[0]?.plain_text || page.id,
         date: properties.Date?.date?.start || new Date().toISOString().split('T')[0],
-        coverImage: customCoverUrl || pageCoverUrl || null,
+        coverImage: customCoverUrl || pageCoverUrl || undefined,
         description: properties.Description?.rich_text[0]?.plain_text || "",
         content: finalContent
     };
@@ -254,7 +277,7 @@ export const getHeroSlides = async (): Promise<HeroSlide[]> => {
                 getNotionUrl(props.coverimage) ||
                 getNotionUrl(props.Image); // Also check generic "Image"
 
-            let imageUrl = customCoverUrl || page.cover?.external?.url || page.cover?.file?.url || null;
+            let imageUrl = customCoverUrl || proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url) || null;
 
             if (!imageUrl && type === "Image") {
                 imageUrl = videoUrl;
@@ -326,8 +349,7 @@ export const getStudents = async (): Promise<Student[]> => {
             const image = getUrlFromProp(props.Image) ||
                 getUrlFromProp(props.Photo) ||
                 getUrlFromProp(props.ImageUrl) ||
-                page.cover?.external?.url ||
-                page.cover?.file?.url ||
+                proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url) ||
                 null; // Return null if no image found
 
             return {
@@ -373,8 +395,7 @@ export const getAlumni = async (): Promise<Alumni[]> => {
             const image = getUrlFromProp(props.Image) ||
                 getUrlFromProp(props.Photo) ||
                 getUrlFromProp(props.ImageUrl) ||
-                page.cover?.external?.url ||
-                page.cover?.file?.url ||
+                proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url) ||
                 "/pics/alumni/alex.jpeg"; // Fallback image
 
             return {
@@ -394,7 +415,7 @@ export interface Coach {
     id: string;
     name: string;
     role: string;
-    image: string;
+    image: string | null;
 }
 
 export const getCoaches = async (): Promise<Coach[]> => {
@@ -425,8 +446,7 @@ export const getCoaches = async (): Promise<Coach[]> => {
             const image = getUrlFromProp(props.Image) ||
                 getUrlFromProp(props.Photo) ||
                 getUrlFromProp(props.ImageUrl) ||
-                page.cover?.external?.url ||
-                page.cover?.file?.url ||
+                proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url) ||
                 null; // No default image for coaches, let frontend handle it or showing empty
 
             return {

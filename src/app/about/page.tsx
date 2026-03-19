@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, GraduationCap, Medal, Trophy } from "lucide-react";
 import { getCoaches } from "@/lib/notion";
-import Image from "next/image";
+import { NotionImage } from "@/components/ui/NotionImage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -82,7 +82,7 @@ export default async function AboutPage() {
                                     <div key={coach.id} className="group">
                                         <div className="aspect-[3/4] bg-gray-100 rounded-lg mb-4 overflow-hidden relative shadow-sm group-hover:shadow-md transition-all">
                                             {coach.image ? (
-                                                <Image
+                                                <NotionImage
                                                     src={coach.image}
                                                     alt={`${coach.name} — ${coach.role} at Elis Academy, elite hockey coaching in Aurora, Ontario`}
                                                     fill
