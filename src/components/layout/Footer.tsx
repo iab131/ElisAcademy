@@ -94,13 +94,13 @@ export function Footer({ variant = "light" }: FooterProps) {
                             </span>
                         </p>
                         <p>
-                            <a href="mailto:elisacademyca@gmail.com" itemProp="email" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
-                                elisacademyca@gmail.com
+                            <a href="mailto:info@elisacademy.ca" itemProp="email" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
+                                info@elisacademy.ca
                             </a>
                         </p>
                         <p>
-                            <a href="tel:+13658875989" itemProp="telephone" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
-                                +1 365 887 5989
+                            <a href="tel:+12898940806" itemProp="telephone" className={cn("transition-colors", isDark ? "hover:text-white" : "hover:text-primary")}>
+                                +1 289 894 0806
                             </a>
                         </p>
                     </address>
