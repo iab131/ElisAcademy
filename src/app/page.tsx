@@ -230,8 +230,8 @@ export default async function Home() {
               Our Alumni
             </h2>
             <p className="text-lg text-gray-300 leading-relaxed mb-8">
-              Elis Academy graduates have gone on to accept offers from ivy
-              league NCAA Division 1 universities.
+              Elis Academy graduates have gone on to accept offers from Ivy
+              League NCAA Division 1 universities.
             </p>
 
             <div className="mt-8 relative p-8 rounded-2xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-sm text-left animate-fade-in-up">
