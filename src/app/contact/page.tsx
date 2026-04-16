@@ -86,7 +86,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-gray-900">Email Us</h4>
-                                    <p className="text-gray-600 mb-1">General: elisacademyca@gmail.com</p>
+                                    <p className="text-gray-600 mb-1">General: <a href="mailto:info@elisacademy.ca" className="hover:text-primary transition-colors hover:underline">info@elisacademy.ca</a></p>
                                     {/* <p className="text-gray-600">Admissions: admissions@queensglen.com</p> */}
                                 </div>
                             </div>
@@ -97,7 +97,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-gray-900">Call Us</h4>
-                                    <p className="text-gray-600">+1 365 887 5989</p>
+                                    <p className="text-gray-600"><a href="tel:+12898940806" className="hover:text-primary transition-colors hover:underline">+1 289 894 0806</a></p>
                                     <p className="text-sm text-gray-500 mt-1">Mon-Sat: 9:00 AM - 6:00 PM</p>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@ export default function ContactPage() {
             </section>
 
             {/* Map Section */}
-            <section className="w-full h-[400px] bg-gray-100">
+            <section className="w-full h-[60svh] bg-gray-100">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2141.0256542761954!2d-79.46196458956986!3d44.00802382929108!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882ad3dd2dfff001%3A0x62b128a515897064!2s135%20Industrial%20Pkwy%20N%2C%20Aurora%2C%20ON%20L4G%204C4!5e0!3m2!1sen!2sca!4v1766349729846!5m2!1sen!2sca"
                     width="100%"
