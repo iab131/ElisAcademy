@@ -4,12 +4,13 @@ import { ArrowRight } from 'lucide-react';
 
 export function Hero() {
     return (
-        <section className="relative w-full overflow-hidden bg-primary text-white" aria-label="Hero — Elis Academy, Elite Hockey Training in Aurora, Ontario">
+        <section className="relative w-full overflow-hidden bg-primary text-white -mt-20" aria-label="Hero — Elis Academy, Elite Hockey Training in Aurora, Ontario">
 
             {/* VIDEO SECTION */}
-            <div className="relative w-screen h-[100vh] max-h-[100svh] overflow-hidden">
+            {/* <div className="relative w-screen h-[100vh] max-h-[100svh] overflow-hidden">
                 <iframe
-                    src="https://player.vimeo.com/video/1073355184?h=0840bdbe46&background=1&autoplay=1&loop=1&muted=1"
+                // original video link: "https://player.vimeo.com/video/1073355184?h=0840bdbe46&background=1&autoplay=1&loop=1&muted=1"
+                    src="https://vimeo.com/1183822553?share=copy&fl=sv&fe=ci"
                     className="
       absolute
       top-1/2
@@ -24,8 +25,19 @@ export function Hero() {
                     loading="lazy"
                     title="Elis Academy training highlights — elite hockey and sports training in Aurora, Ontario"
                 />
+            </div> */}
+            <div className="relative w-screen h-[100svh] overflow-hidden">
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    className="absolute inset-0 h-full w-full object-cover"
+                >
+                    <source src="/videos/homepage-video.mp4" type="video/mp4" />
+                </video>
             </div>
-
 
 
 
