@@ -12,7 +12,8 @@ import { Play } from "lucide-react";
 
 // Helper to check for direct video files vs iframes
 const isDirectVideo = (url: string) => {
-    return url.match(/\.(mp4|webm|ogg)$/i);
+    if (url.startsWith("/api/notion-image")) return true;
+    return url.match(/\.(mp4|webm|ogg)(\?.*)?$/i);
 };
 
 // Helper to extract a Google Drive file ID from any Drive URL format

@@ -23,7 +23,7 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
  */
 const proxyNotionImage = (url: string | null): string | null => {
     if (!url) return null;
-    if (url.includes('prod-files-secure.s3.us-west-2.amazonaws.com')) {
+    if (url.includes('amazonaws.com') || url.includes('notion-static.com') || url.includes('file.notion.so')) {
         return `/api/notion-image?url=${encodeURIComponent(url)}`;
     }
     return url;
@@ -71,10 +71,16 @@ const getNotionUrl = (prop: any): string | null => {
     return proxyNotionImage(url);
 };
 
-// For VIDEO properties: returns the original URL unchanged so that
-// HeroSlider can build the correct embeddable /preview URL.
+// For VIDEO properties: returns the original URL unchanged for Google Drive/Vimeo
+// so that HeroSlider can build the correct embeddable /preview URL.
+// Notion direct video uploads are proxied to avoid signed URL expiration.
 const getNotionVideoUrl = (prop: any): string | null => {
-    return getRawNotionUrl(prop);
+    const url = getRawNotionUrl(prop);
+    if (!url) return null;
+    if (url.includes('drive.google.com') || url.includes('vimeo.com')) {
+        return url;
+    }
+    return proxyNotionImage(url);
 };
 
 export interface BlogPost {
