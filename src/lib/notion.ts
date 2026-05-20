@@ -21,10 +21,16 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
  *
  * External URLs (Google Drive, Unsplash, etc.) are returned as-is.
  */
-const proxyNotionImage = (url: string | null): string | null => {
+const proxyNotionImage = (url: string | null, pageId?: string, prop?: string): string | null => {
     if (!url) return null;
     if (url.includes('amazonaws.com') || url.includes('notion-static.com') || url.includes('file.notion.so')) {
-        return `/api/notion-image?url=${encodeURIComponent(url)}`;
+        // Build a proxy URL. If we have pageId+prop, the proxy can fetch a fresh
+        // S3 URL from Notion when the embedded one expires.
+        let proxyUrl = `/api/notion-image?url=${encodeURIComponent(url)}`;
+        if (pageId && prop) {
+            proxyUrl += `&pageId=${pageId}&prop=${encodeURIComponent(prop)}`;
+        }
+        return proxyUrl;
     }
     return url;
 };
@@ -50,7 +56,7 @@ const getRawNotionUrl = (prop: any): string | null => {
 // For IMAGE properties: transforms Google Drive share links into a direct
 // display URL that works with Next.js Image optimisation.
 // Also proxies Notion S3 signed URLs through our API route.
-const getNotionUrl = (prop: any): string | null => {
+const getNotionUrl = (prop: any, pageId?: string, propName?: string): string | null => {
     const url = getRawNotionUrl(prop);
     if (!url) return null;
 
@@ -68,19 +74,19 @@ const getNotionUrl = (prop: any): string | null => {
             return `https://drive.google.com/uc?export=view&id=${id}`;
         }
     }
-    return proxyNotionImage(url);
+    return proxyNotionImage(url, pageId, propName);
 };
 
 // For VIDEO properties: returns the original URL unchanged for Google Drive/Vimeo
 // so that HeroSlider can build the correct embeddable /preview URL.
 // Notion direct video uploads are proxied to avoid signed URL expiration.
-const getNotionVideoUrl = (prop: any): string | null => {
+const getNotionVideoUrl = (prop: any, pageId?: string, propName?: string): string | null => {
     const url = getRawNotionUrl(prop);
     if (!url) return null;
     if (url.includes('drive.google.com') || url.includes('vimeo.com')) {
         return url;
     }
-    return proxyNotionImage(url);
+    return proxyNotionImage(url, pageId, propName);
 };
 
 export interface BlogPost {
@@ -124,12 +130,12 @@ export async function getPublishedPosts(): Promise<BlogPost[]> {
 
         // Try to find a custom property for the cover image
         // Checking likely capitalizations based on user request "title is coverimage"
-        const customCoverUrl = getNotionUrl(properties.coverimage) ||
-            getNotionUrl(properties.CoverImage) ||
-            getNotionUrl(properties["Cover Image"]) ||
-            getNotionUrl(properties["cover image"]);
+        const customCoverUrl = getNotionUrl(properties.coverimage, page.id, 'coverimage') ||
+            getNotionUrl(properties.CoverImage, page.id, 'CoverImage') ||
+            getNotionUrl(properties["Cover Image"], page.id, 'Cover Image') ||
+            getNotionUrl(properties["cover image"], page.id, 'cover image');
 
-        const pageCoverUrl = proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url);
+        const pageCoverUrl = proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url, page.id, 'cover');
 
         return {
             id: page.id,
@@ -187,12 +193,12 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     // Helper to extract URL from various property types (re-defined here for scoping, same as above)
     // using global getNotionUrl instead
 
-    const customCoverUrl = getNotionUrl(properties.coverimage) ||
-        getNotionUrl(properties.CoverImage) ||
-        getNotionUrl(properties["Cover Image"]) ||
-        getNotionUrl(properties["cover image"]);
+    const customCoverUrl = getNotionUrl(properties.coverimage, page.id, 'coverimage') ||
+        getNotionUrl(properties.CoverImage, page.id, 'CoverImage') ||
+        getNotionUrl(properties["Cover Image"], page.id, 'Cover Image') ||
+        getNotionUrl(properties["cover image"], page.id, 'cover image');
 
-    const pageCoverUrl = proxyNotionImage((page as any).cover?.external?.url || (page as any).cover?.file?.url);
+    const pageCoverUrl = proxyNotionImage((page as any).cover?.external?.url || (page as any).cover?.file?.url, page.id, 'cover');
 
     // Content: Prioritize Page Body (Markdown blocks), fallback to "Content" property
     let finalContent = mdString.parent;
@@ -273,17 +279,17 @@ export const getHeroSlides = async (): Promise<HeroSlide[]> => {
 
             // Get video/media URL — use the raw helper so Drive links aren't
             // converted to uc?export=view (which blocks iframe embedding).
-            let videoUrl = getNotionVideoUrl(props.VideoURL);
+            let videoUrl = getNotionVideoUrl(props.VideoURL, page.id, 'VideoURL');
 
             // Get Image URL: 
             // 1. Check for a "CoverImage" property (Files & Media) as requested by user
             // We check multiple common casing variations
-            const customCoverUrl = getNotionUrl(props.CoverImage) ||
-                getNotionUrl(props["Cover Image"]) ||
-                getNotionUrl(props.coverimage) ||
-                getNotionUrl(props.Image); // Also check generic "Image"
+            const customCoverUrl = getNotionUrl(props.CoverImage, page.id, 'CoverImage') ||
+                getNotionUrl(props["Cover Image"], page.id, 'Cover Image') ||
+                getNotionUrl(props.coverimage, page.id, 'coverimage') ||
+                getNotionUrl(props.Image, page.id, 'Image'); // Also check generic "Image"
 
-            let imageUrl = customCoverUrl || proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url) || null;
+            let imageUrl = customCoverUrl || proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url, page.id, 'cover') || null;
 
             if (!imageUrl && type === "Image") {
                 imageUrl = videoUrl;
@@ -352,10 +358,10 @@ export const getStudents = async (): Promise<Student[]> => {
             // Image extraction helper
             const getUrlFromProp = getNotionUrl;
 
-            const image = getUrlFromProp(props.Image) ||
-                getUrlFromProp(props.Photo) ||
-                getUrlFromProp(props.ImageUrl) ||
-                proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url) ||
+            const image = getUrlFromProp(props.Image, page.id, 'Image') ||
+                getUrlFromProp(props.Photo, page.id, 'Photo') ||
+                getUrlFromProp(props.ImageUrl, page.id, 'ImageUrl') ||
+                proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url, page.id, 'cover') ||
                 null; // Return null if no image found
 
             return {
@@ -398,10 +404,10 @@ export const getAlumni = async (): Promise<Alumni[]> => {
 
             const getUrlFromProp = getNotionUrl;
 
-            const image = getUrlFromProp(props.Image) ||
-                getUrlFromProp(props.Photo) ||
-                getUrlFromProp(props.ImageUrl) ||
-                proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url) ||
+            const image = getUrlFromProp(props.Image, page.id, 'Image') ||
+                getUrlFromProp(props.Photo, page.id, 'Photo') ||
+                getUrlFromProp(props.ImageUrl, page.id, 'ImageUrl') ||
+                proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url, page.id, 'cover') ||
                 "/pics/alumni/alex.jpeg"; // Fallback image
 
             return {
@@ -449,10 +455,10 @@ export const getCoaches = async (): Promise<Coach[]> => {
             // Image extraction helper
             const getUrlFromProp = getNotionUrl;
 
-            const image = getUrlFromProp(props.Image) ||
-                getUrlFromProp(props.Photo) ||
-                getUrlFromProp(props.ImageUrl) ||
-                proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url) ||
+            const image = getUrlFromProp(props.Image, page.id, 'Image') ||
+                getUrlFromProp(props.Photo, page.id, 'Photo') ||
+                getUrlFromProp(props.ImageUrl, page.id, 'ImageUrl') ||
+                proxyNotionImage(page.cover?.external?.url || page.cover?.file?.url, page.id, 'cover') ||
                 null; // No default image for coaches, let frontend handle it or showing empty
 
             return {
