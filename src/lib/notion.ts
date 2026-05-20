@@ -143,8 +143,8 @@ export async function getPublishedPosts(): Promise<BlogPost[]> {
             slug: properties.Slug?.rich_text[0]?.plain_text || page.id,
             date: properties.Date?.date?.start || new Date().toISOString().split('T')[0],
             coverImage: customCoverUrl || pageCoverUrl || undefined,
-            description: properties.Description?.rich_text[0]?.plain_text || "",
-            content: properties.Content?.rich_text[0]?.plain_text || "",
+            description: properties.Description?.rich_text?.map((r: any) => r.plain_text).join("") || "",
+            content: properties.Content?.rich_text?.map((r: any) => r.plain_text).join("") || "",
         };
     });
 }
@@ -203,9 +203,8 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     // Content: Prioritize Page Body (Markdown blocks), fallback to "Content" property
     let finalContent = mdString.parent;
     if (!finalContent || finalContent.trim() === "") {
-        finalContent = properties.Content?.rich_text?.[0]?.plain_text ||
-            properties.content?.rich_text?.[0]?.plain_text ||
-            "";
+        const richText = properties.Content?.rich_text || properties.content?.rich_text;
+        finalContent = richText?.map((r: any) => r.plain_text).join("") || "";
     }
 
     return {

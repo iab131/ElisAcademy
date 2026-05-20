@@ -96,7 +96,7 @@ export default async function BlogPostPage({ params }: Props) {
             )}
 
             <div className="container mx-auto py-16 max-w-3xl">
-                <article className="prose lg:prose-2xl md:prose-xl prose-lg  max-w-none prose-headings:font-serif prose-headings:text-primary prose-a:text-accent prose-img:rounded-xl text-gray-800">
+                <article className="prose prose-sm md:prose-base lg:prose-lg max-w-none prose-headings:font-serif prose-headings:text-primary prose-a:text-accent prose-img:rounded-xl text-gray-800">
                     <ReactMarkdown>{post.content || ""}</ReactMarkdown>
                 </article>
             </div>
